@@ -29,8 +29,7 @@ double cnd(double z)
     return dCND;
 }
 
-/* call-seq:
- *   Rupee.cnd(z)
+/* call-seq: cnd(z)
  *
  * Returns the standard normal cumulative distribution (has a mean of zero and
  * a standard deviation of one).
@@ -44,6 +43,7 @@ static VALUE rupee_cnd(VALUE self, VALUE rz)
   return rb_float_new(cnd(NUM2DBL(rz)));
 }
 
+/* Maybe this does something */
 void init_statistics()
 {
   VALUE klass, singleton;
