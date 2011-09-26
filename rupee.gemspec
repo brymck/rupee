@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-$:.push File.expand_path("../ext", __FILE__)
 require "rupee/version"
 
 Gem::Specification.new do |s|
@@ -15,9 +14,9 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "rupee"
 
   s.files             = `git ls-files`.split("\n")
-  s.test_files        = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.extensions        = ["ext/rupee/extconf.rb"]
+  s.test_files        = `git ls-files -- spec/*`.split("\n")
   s.executables       = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.extensions        = "ext/rupee/extconf.rb"
   s.require_paths     = ["lib", "ext"]
 
   # specify any dependencies here; for example:
