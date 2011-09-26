@@ -1,3 +1,4 @@
 class Rupee
-  VERSION = "0.0.2"
+  # The current version
+  VERSION = "0.0.3"
 end

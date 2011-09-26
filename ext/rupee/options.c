@@ -1,7 +1,4 @@
-#include <ruby.h>
-#include <math.h>
-#include <string.h>
-#include <stdbool.h>
+#include "rupee.h"
 
 /*
  * Whether a particular string refers to a call option (returns false for put)
@@ -29,7 +26,8 @@ static double _black76(const char *call_put_flag, double F, double X, double T, 
     return exp(-r * T) * (X * _cnd(-d2) - F * _cnd(-d1));
 }
 
-/*
+/* call-seq: Rupee.black76(call_put_flag, forward, strike_price, time_to_expiry, risk_free_rate, volatility)
+ *
  * The Black-76 valuation for options on futures and forwards
  * 
  * ==== Arguments
@@ -53,4 +51,14 @@ static VALUE rupee_black76(VALUE self, VALUE rcall_put_flag, VALUE rF, VALUE rX,
   v = NUM2DBL(rv);
 
   return rb_float_new(_black76(call_put_flag, F, X, T, r, v));
+}
+
+void init_options()
+{
+  /* Fool RDoc into thinking you're defining a class */  
+#if 0
+  VALUE cRupee = rb_define_class("Rupee", rb_cObject);
+#endif
+
+  rb_define_singleton_method(cRupee, "black76", rupee_black76, 6);
 }
