@@ -1,15 +1,9 @@
 #include "rupee.h"
 
-/*
- * Whether a particular string refers to a call option (returns false for put)
- *
- * ==== Arguments
- *
- * * +call_put_flag+ - The string to check
- */
+/* Whether a particular string refers to a call option (returns false for put) */
 static bool is_call(const char *call_put_flag)
 {
-  /* Returns to for everything unless it starts with a 'p' */
+  /* Returns true for everything unless it starts with a 'p' */
   return (call_put_flag[0] != 'p');
 }
 
