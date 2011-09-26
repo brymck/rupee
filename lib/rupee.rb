@@ -1,6 +1,7 @@
-require "gold_rupee/version"
+require "rupee/version"
+require "rupee/rupee"
 
-module GoldRupee
+class Rupee
   def self.hi
     puts "Hello, world!"
   end

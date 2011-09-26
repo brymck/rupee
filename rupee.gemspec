@@ -1,24 +1,29 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "gold_rupee/version"
+$:.push File.expand_path("../ext", __FILE__)
+require "rupee/version"
 
 Gem::Specification.new do |s|
-  s.name        = "gold_rupee"
-  s.version     = GoldRupee::VERSION
+  s.name        = "rupee"
+  s.version     = Rupee::VERSION
   s.authors     = ["Bryan McKelvey"]
   s.email       = ["bryan.mckelvey@gmail.com"]
   s.homepage    = "http://brymck.herokuapp.com"
-  s.summary     = %q{Financial tools for Ruby}
-  s.description = %q{gold_rupee aims to provide user-friendly tools for use in financial gems and applications.}
+  s.summary     = "Financial tools for Ruby"
+  s.description = "rupee aims to provide user-friendly tools for use in financial gems and applications."
 
-  s.rubyforge_project = "gold_rupee"
+  s.required_ruby_version     = '>= 1.8.7'
+  s.required_rubygems_version = ">= 1.3.6"
+  
+  s.rubyforge_project = "rupee"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.extensions    = ["ext/rupee/extconf.rb"]
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib"]
+  s.require_paths = ["lib", "ext"]
 
   # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
+  s.add_development_dependency "bundler", "~> 1.0"
   # s.add_runtime_dependency "rest-client"
 end
