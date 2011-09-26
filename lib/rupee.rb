@@ -1,5 +1,5 @@
+require "rupee/rupee" # keep this as the first require
 require "rupee/version"
-require "rupee/rupee"
 
 # The main Rupee driver
 class Rupee
