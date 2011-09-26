@@ -7,9 +7,9 @@ Gem::Specification.new do |s|
   s.version     = GoldRupee::VERSION
   s.authors     = ["Bryan McKelvey"]
   s.email       = ["bryan.mckelvey@gmail.com"]
-  s.homepage    = "http://www.brymck.com"
+  s.homepage    = "http://brymck.herokuapp.com"
   s.summary     = %q{Financial tools for Ruby}
-  s.description = %q{gold_rupee aims to provide user-friendly tools for use in financial applications.}
+  s.description = %q{gold_rupee aims to provide user-friendly tools for use in financial gems and applications.}
 
   s.rubyforge_project = "gold_rupee"
 
