@@ -2,8 +2,7 @@
 
 #define PI 3.1415926536
 
-/* For private use here */
-double _cnd(double z)
+double cnd(double z)
 {
   double L, K, dCND;
   static const double b  = 0.2316419;
@@ -30,7 +29,8 @@ double _cnd(double z)
     return dCND;
 }
 
-/* call-seq: Rupee.cnd(z)
+/* call-seq:
+ *   Rupee.cnd(z)
  *
  * Returns the standard normal cumulative distribution (has a mean of zero and
  * a standard deviation of one).
@@ -41,7 +41,7 @@ double _cnd(double z)
  */
 static VALUE rupee_cnd(VALUE self, VALUE rz)
 {
-  return rb_float_new(_cnd(NUM2DBL(rz)));
+  return rb_float_new(cnd(NUM2DBL(rz)));
 }
 
 void init_statistics()
@@ -49,6 +49,7 @@ void init_statistics()
   /* Fool RDoc into thinking you're defining a class */  
 #if 0
   VALUE cRupee = rb_define_class("Rupee", rb_cObject);
+  VALUE sRupee = rb_singleton_class(cRupee);
 #endif
 
   rb_define_singleton_method(cRupee, "cnd", rupee_cnd, 1);

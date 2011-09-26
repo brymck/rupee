@@ -3,7 +3,7 @@
 
 #include "rupee.h"
 
-double _cnd(double);
+double cnd(double);
 void init_statistics();
 
 #endif

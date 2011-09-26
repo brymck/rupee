@@ -7,14 +7,14 @@ Gem::Specification.new do |s|
   s.version           = Rupee::VERSION
   s.authors           = ["Bryan McKelvey"]
   s.email             = ["bryan.mckelvey@gmail.com"]
-  s.homepage          = "http://brymck.herokuapp.com"
+  s.homepage          = "https://github.com/brymck/rupee"
   s.summary           = "Financial tools for Ruby"
   s.description       = "rupee aims to provide user-friendly tools for use in financial gems and applications."
 
   s.rubyforge_project = "rupee"
 
   s.files             = `git ls-files`.split("\n")
-  s.test_files        = `git ls-files -- spec/*`.split("\n")
+  s.test_files        = `git ls-files -- spec/**/*_spec.rb`.split("\n")
   s.executables       = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.extensions        = "ext/rupee/extconf.rb"
   s.require_paths     = ["lib", "ext"]
