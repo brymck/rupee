@@ -46,11 +46,14 @@ static VALUE rupee_cnd(VALUE self, VALUE rz)
 
 void init_statistics()
 {
-  /* Fool RDoc into thinking you're defining a class */  
+  VALUE klass, singleton;
+
 #if 0
-  VALUE cRupee = rb_define_class("Rupee", rb_cObject);
-  VALUE sRupee = rb_singleton_class(cRupee);
+  VALUE module = rb_define_module("Rupee");
 #endif
 
-  rb_define_singleton_method(cRupee, "cnd", rupee_cnd, 1);
+  klass = rb_define_class_under(module, "Stat", rb_cObject);
+  singleton = rb_singleton_class(klass);
+
+  rb_define_singleton_method(klass, "cnd", rupee_cnd, 1);
 }

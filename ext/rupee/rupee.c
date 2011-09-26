@@ -1,12 +1,11 @@
 #include "rupee.h"
 
-VALUE cRupee, sRupee;
+VALUE module;
 
 /* Ruby calls this to load the extension */
 void Init_rupee(void)
 {
-  cRupee = rb_define_class("Rupee", rb_cObject);
-  sRupee = rb_singleton_class(cRupee);
+  module = rb_define_module("Rupee");
 
   init_statistics();
   init_options();

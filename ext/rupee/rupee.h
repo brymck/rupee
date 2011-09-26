@@ -6,8 +6,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-extern VALUE cRupee;
-extern VALUE sRupee;
+extern VALUE module;
 
 #include "statistics.h"
 #include "options.h"

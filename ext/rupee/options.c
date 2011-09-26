@@ -139,15 +139,18 @@ static VALUE rupee_black76(VALUE self, VALUE rcall_put_flag, VALUE rF, VALUE rX,
 
 void init_options()
 {
-  /* Fool RDoc into thinking you're defining a class */  
+  VALUE klass, singleton;
+
 #if 0
-  VALUE cRupee = rb_define_class("Rupee", rb_cObject);
-  VALUE sRupee = rb_singleton_class(cRupee);
+  VALUE module = rb_define_module("Rupee");
 #endif
 
-  rb_define_singleton_method(cRupee, "black_scholes", rupee_black_scholes, 7);
-  rb_define_alias(sRupee, "bs", "black_scholes");
-  rb_define_singleton_method(cRupee, "generalized_black_scholes", rupee_generalized_black_scholes, 7);
-  rb_define_alias(sRupee, "gbs", "generalized_black_scholes");
-  rb_define_singleton_method(cRupee, "black76", rupee_black76, 6);
+  klass = rb_define_class_under(module, "Options", rb_cObject);
+  singleton = rb_singleton_class(klass);
+
+  rb_define_singleton_method(klass, "black_scholes", rupee_black_scholes, 7);
+  rb_define_alias(singleton, "bs", "black_scholes");
+  rb_define_singleton_method(klass, "generalized_black_scholes", rupee_generalized_black_scholes, 7);
+  rb_define_alias(singleton, "gbs", "generalized_black_scholes");
+  rb_define_singleton_method(klass, "black76", rupee_black76, 6);
 }
