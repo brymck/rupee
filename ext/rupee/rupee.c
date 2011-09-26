@@ -1,10 +1,6 @@
 #include <ruby.h>
-
-/* A native method */
-static VALUE rupee_bonjour(VALUE self)
-{
-  return rb_str_new2("bonjour!");
-}
+#include "statistics.h"
+#include "european.h"
 
 /* Ruby calls this to load the extension */
 void Init_rupee(void)
@@ -12,6 +8,6 @@ void Init_rupee(void)
   /* Assuming that we haven't defined Rupee */
   VALUE klass = rb_define_class("Rupee", rb_cObject);
 
-  /* The rupee_bonjour method can be called as Rupee.bonjour */
-  rb_define_singleton_method(klass, "bonjour", rupee_bonjour, 0);
+  rb_define_singleton_method(klass, "cnd", rupee_cnd, 1);
+  rb_define_singleton_method(klass, "black76", rupee_black76, 6);
 }
