@@ -21,7 +21,8 @@ Gem::Specification.new do |s|
   s.require_paths     = ["lib", "ext"]
 
   # specify any dependencies here; for example:
-  s.add_development_dependency "bundler", "~> 1.0"
-  s.add_development_dependency "rspec",   "~> 2.6"
+  s.add_development_dependency "bundler",  "~> 1.0"
+  s.add_development_dependency "rspec",    "~> 2.0"
+  s.add_development_dependency "autotest", "~> 4.0"
   # s.add_runtime_dependency "rest-client"
 end
