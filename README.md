@@ -1,10 +1,26 @@
-= Rupee - financial tools for Ruby
+Rupee - financial tools for Ruby
+================================
 
-Copyright (c) 2011 Bryan McKelvey
-MIT License
-www.brymck.com
+<table>
+  <tr>
+    <td>Homepage</td>
+    <td><a href="http://www.brymck.com">www.brymck.com</a></td>
+  </tr>
+  <tr>
+    <td>Author</td>
+    <td>Bryan McKelvey</td>
+  </tr>
+  <tr>
+    <td>Copyright</td>
+    <td>(c) 2011 Bryan McKelvey</td>
+  </tr>
+  <tr>
+    <td>License</td>
+    <td>MIT</td>
+  </tr>
+</table>
 
-{http://api.flattr.com/button/flattr-badge-large.png}[https://flattr.com/submit/auto?user_id=brymck&url=https://github.com/brymck/rupee&title=rupee&language=en_GB&tags=github&category=software]
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=brymck&url=https://github.com/brymck/rupee&title=rupee&language=en_GB&tags=github&category=software)
 
         /|\
        / | \
@@ -19,7 +35,8 @@ www.brymck.com
        \ | /
         \|/ brymck
 
-== Installing
+Installing
+----------
 
 Note that you must have Ruby 1.8.7+ installed and the ability to compile native
 extensions (standard on most platforms and available on Windows via
@@ -51,7 +68,8 @@ module):
 
 Got it? Good. This will surely help you collect some rupees in real life.
 
-== Performance
+Performance
+-----------
 
 This is just a simple benchmark I ran on my own laptop, where I value a simple
 call option with Black-Scholes one million times. You can test the same on
