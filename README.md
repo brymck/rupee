@@ -4,7 +4,7 @@ Rupee - financial tools for Ruby
 <table>
   <tr>
     <td>Homepage</td>
-    <td>http://www.brymck.com</td>
+    <td><a href="http://www.brymck.com">www.brymck.com</a></td>
   </tr>
   <tr>
     <td>Author</td>
