@@ -25,7 +25,7 @@ Rupee - financial tools for Ruby
         /|\
        / | \
       /  |  \
-     /_ / \ _\  
+     /_ / \ _\    RU       PE      E
     |  |   |  |   _ _      _
     |  |   |  |  | | |    | |__o  ____
     |  |   |  |  | | | _  |  __| |____|
@@ -69,8 +69,6 @@ module):
     Rupee::Import.bloomberg "WFC", :price, :change, :pct_change
 
 Got it? Good. This will surely help you collect some rupees in real life.
-
--brymck
 
 Performance
 ----------
