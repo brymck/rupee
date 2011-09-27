@@ -1,3 +1,4 @@
+require "rupee/import/source"
 autoload :Net, "net/http"
 autoload :URI, "uri"
 
@@ -6,17 +7,24 @@ module Rupee
   class Import
     class << self
       # Retrieves the current price of a security
-      def quote(url, *options)
+      def quote(url, *params)
+        results = {}
+        params = [:price] if params.empty?
         url = URI.parse(url)
-        res = Net::HTTP.start(url.host, url.port) do |http|
+        html = Net::HTTP.start(url.host, url.port) do |http|
           http.get url.request_uri
+        end.body
+
+        params.each do |p|
+          results[p] = @sources[0].params[p].match(html)[1]
         end
-        puts res.body
+
+        results
       end
 
       # Retrieves the current price of a security from Bloomberg
-      def bloomberg(ticker, *options)
-        quote BLOOMBERG_URL % ticker, options
+      def bloomberg(ticker, *params)
+        quote BLOOMBERG_URL % ticker, *params
       end
 
       private
