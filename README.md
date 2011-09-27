@@ -44,7 +44,15 @@ extensions (standard on most platforms and available on Windows via
 
     gem install rupee
 
-You can test it out by running something like this in the command prompt:
+You can also do things the hard way if you want to keep track of the repo:
+
+    git clone git://github.com/brymck/rupee.git
+    cd rupee
+    bundle update
+    rake install
+
+After all that hard work, you can take a test drive by running something like
+this in the command prompt:
 
     irb
     require "rupee"
