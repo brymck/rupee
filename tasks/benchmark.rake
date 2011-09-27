@@ -11,7 +11,7 @@ namespace :benchmark do
     Benchmark.bm(11) do |x|
       x.report "rupee:" do
         n.times do
-          Rupee::Options.black_scholes "c", 60, 65, 0.25, 0.08, 0, 0.3
+          Rupee::Option.black_scholes "c", 60, 65, 0.25, 0.08, 0, 0.3
         end
       end
       x.report("pure ruby:") do
