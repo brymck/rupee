@@ -1,13 +1,13 @@
-require "rupee/import/source"
+require "rupee/quote/source"
 autoload :Net, "net/http"
 autoload :URI, "uri"
 
 module Rupee
   # The quote and data import functionality in Rupee
-  class Import
+  class Quote
     class << self
       # Retrieves the current price of a security
-      def quote(url, *params)
+      def get(url, *params)
         results = {}
         params = [:price] if params.empty?
         url = URI.parse(url)
@@ -24,7 +24,7 @@ module Rupee
 
       # Retrieves the current price of a security from Bloomberg
       def bloomberg(ticker, *params)
-        quote BLOOMBERG_URL % ticker, *params
+        get BLOOMBERG_URL % ticker, *params
       end
 
       private

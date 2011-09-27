@@ -44,7 +44,7 @@ static VALUE rupee_cnd(VALUE self, VALUE rz)
 }
 
 /* Maybe this does something */
-void init_statistics()
+void init_distribution()
 {
   VALUE klass, singleton;
 
@@ -52,7 +52,7 @@ void init_statistics()
   VALUE module = rb_define_module("Rupee");
 #endif
 
-  klass = rb_define_class_under(module, "Stat", rb_cObject);
+  klass = rb_define_class_under(module, "Distribution", rb_cObject);
   singleton = rb_singleton_class(klass);
 
   rb_define_singleton_method(klass, "cnd", rupee_cnd, 1);

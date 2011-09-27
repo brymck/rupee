@@ -1,5 +1,5 @@
 module Rupee
-  class Import
+  class Quote
     # A class to hold quote sources
     class Source
       # The name of the source
@@ -48,6 +48,6 @@ module Rupee
     end
 
     # Initialize sources
-    Import.build_sources
+    Quote.build_sources
   end
 end

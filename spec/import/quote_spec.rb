@@ -1,14 +1,14 @@
 require File.dirname(__FILE__) + "/../spec_helper"
 
-describe Rupee::Import do
+describe Rupee::Quote do
   it "should automatically have a Bloomberg source" do
-    Rupee::Import.sources[0].name.should == :bloomberg
+    Rupee::Quote.sources[0].name.should == :bloomberg
   end
 
   describe "when pulling quotes" do
     describe "without any parameters specified" do
       before :each do
-        @wfc = Rupee::Import.bloomberg("WFC")
+        @wfc = Rupee::Quote.bloomberg("WFC")
       end
 
       it "should default to pulling the price" do

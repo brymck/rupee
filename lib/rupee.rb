@@ -16,5 +16,5 @@ require "rupee/version"
 
 # This module contains all modules and classes associated with Rupee
 module Rupee
-  autoload :Import, "rupee/import"
+  autoload :Quote, "rupee/quote"
 end

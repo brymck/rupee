@@ -146,7 +146,7 @@ static VALUE rupee_black76(VALUE self, VALUE rcall_put_flag, VALUE rF, VALUE rX,
   return rb_float_new(black76(call_put_flag, F, X, T, r, v));
 }
 
-void init_options()
+void init_option()
 {
   VALUE klass, singleton;
 
@@ -154,7 +154,7 @@ void init_options()
   VALUE module = rb_define_module("Rupee");
 #endif
 
-  klass = rb_define_class_under(module, "Options", rb_cObject);
+  klass = rb_define_class_under(module, "Option", rb_cObject);
   singleton = rb_singleton_class(klass);
 
   rb_define_singleton_method(klass, "black_scholes", rupee_black_scholes, 7);
