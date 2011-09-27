@@ -36,9 +36,8 @@ You can also do things the hard way if you want to keep track of the repo:
     rake install
 
 After all that hard work, you can take a test drive by running something like
-this in the command prompt:
+this in the Ruby console (i.e. `irb` in a command prompt):
 
-    irb
     require "rupee"
     Rupee::Option.black_scholes "c", 60, 65, 0.25, 0.08, 0, 0.3
 
@@ -48,7 +47,6 @@ You should also be able to get the latest stock info for, for example, Wells
 Fargo using the following (note that you only need to `require` the `quote`
 module):
 
-    irb
     require "rupee/quote"
     Rupee::Quote.bloomberg "WFC", :price, :change, :pct_change
 
