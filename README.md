@@ -40,7 +40,7 @@ Installing
 
 Note that you must have Ruby 1.8.7+ installed and the ability to compile native
 extensions (standard on most platforms and available on Windows via
-{DevKit}[http://rubyinstaller.org/downloads/)].
+[DevKit](http://rubyinstaller.org/downloads/)).
 
     gem install rupee
 
