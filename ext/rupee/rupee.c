@@ -8,4 +8,5 @@ void Init_rupee(void)
 
   init_distribution();
   init_option();
+  init_bond();
 }

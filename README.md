@@ -74,7 +74,7 @@ Performance
 This is just a simple benchmark I ran on my own laptop, where I value a simple
 call option with Black-Scholes one million times. You can test the same on
 yours with rake, but in any case it makes the point that for the mathematical
-side of finance a native extension in C/C++ has substantial benefits:
+side of finance a native extension has substantial benefits:
 
     rake benchmark:black_scholes
 

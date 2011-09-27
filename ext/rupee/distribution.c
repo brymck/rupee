@@ -43,13 +43,12 @@ static VALUE rupee_cnd(VALUE self, VALUE rz)
   return rb_float_new(cnd(NUM2DBL(rz)));
 }
 
-/* Maybe this does something */
 void init_distribution()
 {
   VALUE klass, singleton;
 
 #if 0
-  VALUE module = rb_define_module("Rupee");
+  value module = rb_define_module("rupee");
 #endif
 
   klass = rb_define_class_under(module, "Distribution", rb_cObject);

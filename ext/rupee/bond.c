@@ -1,0 +1,41 @@
+#include "rupee.h"
+
+static VALUE duration(VALUE self, VALUE rcf_times, VALUE rcfs, VALUE rr)
+{
+  double r, S, D1;
+  int i, cfs_len;
+
+  VALUE *cf_times = RARRAY_PTR(rcf_times);
+  VALUE *cfs = RARRAY_PTR(rcfs);
+  cfs_len = RARRAY_LEN(rcfs);
+  r = NUM2DBL(rr);
+  S = 0;
+  D1 = 0;
+
+  for (i = 0; i < cfs_len; i++) {
+    double cfti, cfi, dcfi;
+
+    cfti = NUM2DBL(cf_times[i]);
+    cfi = NUM2DBL(cfs[i]);
+    dcfi = cfi * exp(-r * cfti);
+
+  	S  += dcfi;
+ 	  D1 += cfti * dcfi;
+  }
+
+  return rb_float_new(D1 / S);
+}
+
+void init_bond()
+{
+  VALUE klass, singleton;
+
+#if 0
+  value module = rb_define_module("rupee");
+#endif
+
+  klass = rb_define_class_under(module, "Bond", rb_cObject);
+  singleton = rb_singleton_class(klass);
+
+  rb_define_singleton_method(klass, "duration", duration, 3);
+}
