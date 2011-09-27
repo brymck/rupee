@@ -1,9 +1,8 @@
 = Rupee - financial tools for Ruby
 
-Homepage::  www.brymck.com
-Author::    Bryan McKelvey (mailto:bryan.mckelvey@gmail.com)
-Copyright:: Copyright (c) 2011 Bryan McKelvey
-License::   MIT
+Copyright (c) 2011 Bryan McKelvey
+MIT License
+www.brymck.com
 
 {http://api.flattr.com/button/flattr-badge-large.png}[https://flattr.com/submit/auto?user_id=brymck&url=https://github.com/brymck/rupee&title=rupee&language=en_GB&tags=github&category=software]
 
