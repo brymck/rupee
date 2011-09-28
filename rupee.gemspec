@@ -26,7 +26,4 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "bundler",       "~> 1.0"
   s.add_development_dependency "rspec",         "~> 2.0"
-  s.add_development_dependency "autotest",      "~> 4.0"
-  s.add_development_dependency "test_notifier", "~> 0.4"
-  s.add_development_dependency "sdoc",          "~> 0.3"
 end
