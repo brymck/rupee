@@ -33,19 +33,21 @@ module Rupee
       end
     end
 
-    # Aliases an attribute, taking into account both its getter and setter
-    # methods. For example,
-    #
-    #   attr_accessor :price
-    #   attr_alias :value, :price
-    # 
-    # would add both a <tt>value</tt> and a <tt>value=</tt> that are equivalent
-    # to their <tt>price</tt> counterparts.
-    def attr_alias(new_read, old_read)
-      alias_method(new_read, old_read) if method_defined?(old_read)
-      new_write = "#{new_read}="
-      old_write = "#{old_read}="
-      alias_method(new_write, old_write) if method_defined?(old_write)
+    class << self
+      # Aliases an attribute, taking into account both its getter and setter
+      # methods. For example,
+      #
+      #   attr_accessor :price
+      #   attr_alias :value, :price
+      # 
+      # would add both a <tt>value</tt> and a <tt>value=</tt> that are equivalent
+      # to their <tt>price</tt> counterparts.
+      def attr_alias(new_read, old_read)
+        alias_method(new_read, old_read) if method_defined?(old_read)
+        new_write = "#{new_read}="
+        old_write = "#{old_read}="
+        alias_method(new_write, old_write) if method_defined?(old_write)
+      end
     end
   end
 end
