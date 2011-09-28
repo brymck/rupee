@@ -8,8 +8,9 @@
 
 extern VALUE module;
 
-/* Conversion */
+/* Utilities */
 double *rtofa(double *dest, VALUE src, int len);
+double avg(double x, double y);
 
 /* Statistics */
 double cnd(double);
@@ -21,7 +22,9 @@ double gbs(const char *call_put_flag, double S, double X, double T, double r,
 void init_option();
 
 /* Bonds */
-double bond_price(double *cf_times, double *cfs, double r, int len);
+double bond_dur(double *times, double *cflows, double r, int len, bool discrete);
+double bond_price(double *times, double *cflows, double r, int len, bool discrete);
+double bond_ytm(double *times, double *cflows, double r, int len, bool discrete);
 void init_bond();
 
 #endif

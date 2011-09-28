@@ -169,10 +169,10 @@ init_option()
   klass = rb_define_class_under(module, "Option", rb_cObject);
   singleton = rb_singleton_class(klass);
 
+  rb_define_singleton_method(klass, "black76", rupee_black76, 6);
   rb_define_singleton_method(klass, "black_scholes", rupee_black_scholes, 7);
   rb_define_alias(singleton, "bs", "black_scholes");
   rb_define_singleton_method(klass, "generalized_black_scholes",
       rupee_generalized_black_scholes, 7);
   rb_define_alias(singleton, "gbs", "generalized_black_scholes");
-  rb_define_singleton_method(klass, "black76", rupee_black76, 6);
 }

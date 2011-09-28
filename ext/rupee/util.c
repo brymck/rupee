@@ -16,3 +16,10 @@ rtofa(dest, src, len)
 
   return dest;
 }
+
+double
+avg(x, y)
+  double x, y;
+{
+  return 0.5 * (x + y);
+}
