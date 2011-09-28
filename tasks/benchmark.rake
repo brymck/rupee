@@ -1,12 +1,13 @@
-require "rupee"
-require "rupee/benchmark"
 autoload :Benchmark, "benchmark"
 
 namespace :benchmark do
   task :default => :black_scholes
 
-  desc "Run Black-Scholes on million times"
+  desc "Run Black-Scholes one million times"
   task :black_scholes do
+    require "rupee"
+    require "rupee/benchmark"
+
     n = 1_000_000
     Benchmark.bm(11) do |x|
       x.report "rupee:" do

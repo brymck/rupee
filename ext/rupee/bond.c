@@ -1,6 +1,8 @@
 #include "rupee.h"
 
-static VALUE duration(VALUE self, VALUE rcf_times, VALUE rcfs, VALUE rr)
+static VALUE
+duration(self, rcf_times, rcfs, rr)
+  VALUE self, rcf_times, rcfs, rr;
 {
   double r, S, D1;
   int i, cfs_len;
@@ -26,7 +28,8 @@ static VALUE duration(VALUE self, VALUE rcf_times, VALUE rcfs, VALUE rr)
   return rb_float_new(D1 / S);
 }
 
-void init_bond()
+void
+init_bond()
 {
   VALUE klass, singleton;
 

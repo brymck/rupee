@@ -2,7 +2,9 @@
 
 #define PI 3.1415926536
 
-double cnd(double z)
+double
+cnd(z)
+  double z;
 {
   double L, K, dCND;
   static const double b  = 0.2316419;
@@ -38,12 +40,15 @@ double cnd(double z)
  *
  * * +z+ - The value for which you want the distribution
  */
-static VALUE rupee_cnd(VALUE self, VALUE rz)
+static VALUE
+rupee_cnd(self, rz)
+  VALUE self, rz;
 {
   return rb_float_new(cnd(NUM2DBL(rz)));
 }
 
-void init_distribution()
+void
+init_distribution()
 {
   VALUE klass, singleton;
 

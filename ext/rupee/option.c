@@ -1,14 +1,18 @@
 #include "rupee.h"
 
 /* Whether a particular string refers to a call option (false for put) */
-static bool is_call(const char *call_put_flag)
+static bool
+is_call(call_put_flag)
+  const char *call_put_flag;
 {
   /* Returns true for everything unless it starts with a 'p' */
   return (call_put_flag[0] != 'p');
 }
 
-static double bs(const char *call_put_flag, double S, double X, double T,
-    double r, double q, double v)
+static double
+bs(call_put_flag, S, X, T, r, q, v)
+  const char *call_put_flag;
+  double S, X, T, r, q, v;
 {
   double d1, d2;
 
@@ -37,8 +41,9 @@ static double bs(const char *call_put_flag, double S, double X, double T,
  * * +dividend_yield+ - The annual dividend yield
  * * +volatility+ - The implied volatility at expiry
  */
-static VALUE rupee_black_scholes(VALUE self, VALUE rcall_put_flag, VALUE rF,
-    VALUE rX, VALUE rT, VALUE rr, VALUE rq, VALUE rv)
+static VALUE
+rupee_black_scholes(self, rcall_put_flag, rF, rX, rT, rr, rq, rv)
+  VALUE self, rcall_put_flag, rF, rX, rT, rr, rq, rv;
 {
   const char *call_put_flag;
   double F, X, T, r, q, v;
@@ -54,8 +59,10 @@ static VALUE rupee_black_scholes(VALUE self, VALUE rcall_put_flag, VALUE rF,
   return rb_float_new(bs(call_put_flag, F, X, T, r, q, v));
 }
 
-double gbs(const char *call_put_flag, double S, double X, double T, double r,
-    double b, double v)
+double
+gbs(call_put_flag, S, X, T, r, b, v)
+  const char *call_put_flag;
+  double S, X, T, r, b, v;
 {
   double d1, d2;
 
@@ -84,8 +91,9 @@ double gbs(const char *call_put_flag, double S, double X, double T, double r,
  * * +cost_of_carry+ - The annualized cost of carry
  * * +volatility+ - The implied volatility at expiry
  */
-static VALUE rupee_generalized_black_scholes(VALUE self, VALUE rcall_put_flag,
-    VALUE rF, VALUE rX, VALUE rT, VALUE rr, VALUE rb, VALUE rv)
+static VALUE
+rupee_generalized_black_scholes(self, rcall_put_flag, rF, rX, rT, rr, rb, rv)
+  VALUE self, rcall_put_flag, rF, rX, rT, rr, rb, rv;
 {
   const char *call_put_flag;
   double F, X, T, r, b, v;
@@ -101,8 +109,10 @@ static VALUE rupee_generalized_black_scholes(VALUE self, VALUE rcall_put_flag,
   return rb_float_new(gbs(call_put_flag, F, X, T, r, b, v));
 }
 
-static double black76(const char *call_put_flag, double F, double X, double T,
-    double r, double v)
+static double
+black76(call_put_flag, F, X, T, r, v)
+  const char *call_put_flag;
+  double F, X, T, r, v;
 {
   double d1, d2;
 
@@ -130,8 +140,9 @@ static double black76(const char *call_put_flag, double F, double X, double T,
  * * +risk_free_rate+ - The risk-free rate through expiry
  * * +volatility+ - The implied volatility at expiry
  */
-static VALUE rupee_black76(VALUE self, VALUE rcall_put_flag, VALUE rF, VALUE rX,
-    VALUE rT, VALUE rr, VALUE rv)
+static VALUE
+rupee_black76(self, rcall_put_flag, rF, rX, rT, rr, rv)
+  VALUE self, rcall_put_flag, rF, rX, rT, rr, rv;
 {
   const char *call_put_flag;
   double F, X, T, r, v;
@@ -146,7 +157,8 @@ static VALUE rupee_black76(VALUE self, VALUE rcall_put_flag, VALUE rF, VALUE rX,
   return rb_float_new(black76(call_put_flag, F, X, T, r, v));
 }
 
-void init_option()
+void
+init_option()
 {
   VALUE klass, singleton;
 

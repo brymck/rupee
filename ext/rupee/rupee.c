@@ -2,7 +2,8 @@
 
 VALUE module;
 
-void Init_rupee(void)
+void
+Init_rupee()
 {
   module = rb_define_module("Rupee");
 
