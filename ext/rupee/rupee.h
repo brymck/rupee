@@ -9,7 +9,7 @@
 extern VALUE module;
 
 /* Conversion */
-double *rtofary(VALUE rary);
+double *rtofa(double *dest, VALUE src, int len);
 
 /* Statistics */
 double cnd(double);
@@ -21,7 +21,7 @@ double gbs(const char *call_put_flag, double S, double X, double T, double r,
 void init_option();
 
 /* Bonds */
-double bond_price(VALUE rcf_times, VALUE rcfs, double r);
+double bond_price(double *cf_times, double *cfs, double r, int len);
 void init_bond();
 
 #endif

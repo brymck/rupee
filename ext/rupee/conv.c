@@ -1,20 +1,18 @@
 #include "rupee.h"
 
 double *
-rtofary(rary)
-  VALUE rary;
+rtofa(dest, src, len)
+  double *dest;
+  VALUE src;
+  int len;
 {
-  int len, i;
-  double *result;
+  int i;
   VALUE *ary;
 
-  ary = RARRAY_PTR(rary);
-  len = RARRAY_LEN(rary);
-  result = realloc(result, len);
+  ary = RARRAY_PTR(src);
 
   for (i = 0; i < len; i++)
-    result[i] = NUM2DBL(ary[i]);
+    dest[i] = NUM2DBL(ary[i]);
 
-  return result;
+  return dest;
 }
-

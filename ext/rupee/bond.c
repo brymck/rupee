@@ -1,27 +1,17 @@
 #include "rupee.h"
 
 double
-bond_price(rcf_times, rcfs, r)
-  VALUE rcf_times, rcfs;
-  double r;
+bond_price(cf_times, cfs, r, len)
+  double *cf_times, *cfs, r;
+  int len;
 {
   double p, *cft;
-  int i, cfs_len;
+  int i;
 
-  VALUE *cf_times, *cfs;
-  cf_times = RARRAY_PTR(rcf_times);
-  cfs = RARRAY_PTR(rcfs);
-  cfs_len = RARRAY_LEN(rcfs);
   p = 0;
 
-  for (i = 0; i < cfs_len; i++) { 
-    double cfti, cfi;
-
-    cfti = NUM2DBL(cf_times[i]);
-    cfi = NUM2DBL(cfs[i]);
-
-  	p += exp(-r * cfti) * cfi;
-  };
+  for (i = 0; i < len; i++)
+  	p += exp(-r * cf_times[i]) * cfs[i];
 
   return p;
 };
@@ -30,37 +20,33 @@ static VALUE
 price(self, rcf_times, rcfs, rr)
   VALUE self, rcf_times, rcfs, rr;
 {
-  double r;
+  int len = RARRAY_LEN(rcfs);
+  double r, cf_times[len], cfs[len];
   
   r = NUM2DBL(rr);
+  rtofa(cf_times, rcf_times, len);
+  rtofa(cfs, rcfs, len);
 
-  return rb_float_new(bond_price(rcf_times, rcfs, r));
+  return rb_float_new(bond_price(cf_times, cfs, r, len));
 }
 
 static VALUE
 convexity(self, rcf_times, rcfs, rr)
   VALUE self, rcf_times, rcfs, rr;
 {
-  double r, C, B;
-  int i, cfs_len;
-  VALUE *cf_times, *cfs;
+  int len = RARRAY_LEN(rcfs);
+  double r, C, B, cf_times[len], cfs[len];
+  int i;
 
-  cf_times = RARRAY_PTR(rcf_times);
-  cfs = RARRAY_PTR(rcfs);
-  cfs_len = RARRAY_LEN(rcfs);
+  rtofa(cf_times, rcf_times, len);
+  rtofa(cfs, rcfs, len);
   r = NUM2DBL(rr);
   C = 0;
 
-  for (i = 0; i < cfs_len; i++) {
-    double cfti, cfi;
+  for (i = 0; i < len; i++)
+  	C += cfs[i] * pow(cf_times[i], 2) * exp(-r * cf_times[i]);
 
-    cfti = NUM2DBL(cf_times[i]);
-    cfi = NUM2DBL(cfs[i]);
-
-  	C += cfi * pow(cfti, 2) * exp(-r * cfti);
-  };
-
-  B = bond_price(rcf_times, rcfs, r);
+  B = bond_price(cf_times, cfs, r, len);
 
   return rb_float_new(C / B);
 };
