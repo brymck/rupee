@@ -14,8 +14,10 @@ module Rupee
     # The cached HTML
     attr :html
 
+    # The frequency in seconds that a quote's information should be updated
     attr_accessor :frequency
 
+    # The time at which the next pull from the online quote source will occur
     attr :next_pull
 
     def initialize(ticker, opts = {})
@@ -61,6 +63,11 @@ module Rupee
       define_method method_name do
         get method_name
       end
+    end
+
+    def frequency=(x)
+      @next_pull += (x - @frequency)
+      @frequency = x
     end
 
     private

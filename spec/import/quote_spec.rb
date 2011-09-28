@@ -18,6 +18,14 @@ describe Rupee::Quote do
       it "should return a price" do
         @wfc.price.should be_a_kind_of Float
       end
+
+      it "should reflect changes to frequency in next pull time" do
+        freq_change = 5
+        orig_freq = @wfc.frequency
+        orig_pull = @wfc.next_pull
+        @wfc.frequency -= freq_change
+        @wfc.next_pull.should == orig_pull - freq_change
+      end
     end
   end
 end
