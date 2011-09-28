@@ -1,9 +1,10 @@
 = Rupee - financial tools for Ruby
 
-Homepage::  http://www.brymck.com
-Author::    Bryan McKelvey
-Copyright:: (c) 2011 Bryan McKelvey
-License::   MIT
+Homepage::      http://www.brymck.com
+Author::        Bryan McKelvey
+Copyright::     (c) 2011 Bryan McKelvey
+License::       MIT
+Documentation:: http://rdoc.info/github/brymck/rupee/master/frames
 
         /|\
        / | \
