@@ -1,5 +1,16 @@
 #include "rupee.h"
 
+double
+simple_df(r, time, discrete)
+  double r, time;
+  bool discrete;
+{
+  if (discrete)
+    return 1.0 / pow(1.0 + r, time);
+  else
+    return exp(-r * time);
+}
+
 double *
 rtofa(dest, src, len)
   double *dest;

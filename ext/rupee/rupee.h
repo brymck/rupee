@@ -11,6 +11,7 @@ extern VALUE module;
 /* Utilities */
 double *rtofa(double *dest, VALUE src, int len);
 double avg(double x, double y);
+double simple_df(double r, double time, double discrete);
 
 /* Statistics */
 double cnd(double);
