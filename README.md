@@ -72,7 +72,20 @@ Fargo using the following (note that you only need to `require` the `quote`
 module):
 
     require "rupee/quote"
-    Rupee::Quote.bloomberg "WFC", :price, :change, :pct_change
+    wfc = Rupee::Quote.new("WFC")
+
+    wfc.get :price, :change, :pct_change
+    #=> {:price=>24.96, :change=>0.17, :pct_change =>0.686}
+
+    wfc.price
+    #=> 24.96
+
+    wfc.change
+    #=> 0.17
+
+`wfc.get` will return a hash of the requested information for the security.
+Each valid parameter will also have its own utility method. The results will
+update every `wfc.frequency` seconds (defaults to 15).
 
 Got it? Good. This will surely help you collect some rupees in real life.
 

@@ -24,10 +24,10 @@ module Rupee
 
       # Build the default sources that come with Rupee
       def build_sources
-        @sources ||= []
+        @sources ||= {}
 
         # Bloomberg
-        @sources << Source.new(:bloomberg, [:bberg, :bb, :b], 
+        @sources[:bloomberg] = Source.new(:bloomberg, [:bberg, :bb, :b], 
           :price => /(?:PRICE|VALUE): <span class="amount">([0-9.,NA-]{1,})/,
           :change => /Change<\/td>\n<td class="value[^>]+>([0-9.,NA-]{1,})/,
           :pct_change => /Change<\/td>\n<td class="value[^>]+>[0-9.,NA-]{1,} \(([0-9NA.,-]{1,})\%/,
@@ -41,8 +41,8 @@ module Rupee
           :volume => /Volume<\/td>\n<td class="value[^>]+>([0-9.,NA-]{1,})/,
           :mkt_cap => /Market Cap[^<]+<\/td>\n<td class="value">([0-9.,NA-]{1,})/,
           :p_e     => /Price\/Earnings[^<]+<\/td>\n<td class="value">([0-9.,NA-]{1,})/)
-        @sources << Source.new(:yahoo)
-        @sources << Source.new(:google)
+        @sources[:yahoo] = Source.new(:yahoo)
+        @sources[:google] = Source.new(:google)
         @default_source = :bloomberg
       end
     end

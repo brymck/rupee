@@ -5,43 +5,86 @@ autoload :URI, "uri"
 module Rupee
   # The quote and data import functionality in Rupee
   class Quote
-    class << self
-      # Retrieves the current price of a security
-      def get(url, *params)
-        results = {}
-        params = [:price] if params.empty?
+    # A ticker symbol
+    attr_accessor :ticker
+
+    # The name of the quote source
+    attr_accessor :source
+
+    # The cached HTML
+    attr :html
+
+    attr_accessor :frequency
+
+    attr :next_pull
+
+    def initialize(ticker, opts = {})
+      opts = { :source => :bloomberg, :frequency => 15 }.merge opts
+      @ticker = ticker
+      @source = Quote.sources[opts[:source]]
+      @frequency = opts[:frequency]
+      @next_pull = Time.now
+    end
+
+    # Retrieves the current price of a security
+    def get(*params)
+      now = Time.now
+      params = [:price] if params.empty?
+
+      if now >= @next_pull
+        @next_pull = now + @frequency
+        url = BLOOMBERG_URL % ticker
+        @results = {}
         url = URI.parse(url)
-        html = Net::HTTP.start(url.host, url.port) do |http|
+        @html = Net::HTTP.start(url.host, url.port) do |http|
           http.get url.request_uri
         end.body
 
-        params.each do |p|
-          results[p] = @sources[0].params[p].match(html)[1]
+        @source.params.each do |param, regex|
+          begin
+            @results[param] = parse(regex.match(html)[1])
+          rescue
+            @results[param] = nil
+          end
         end
-
-        results
       end
 
-      # Retrieves the current price of a security from Bloomberg
-      def bloomberg(ticker, *params)
-        get BLOOMBERG_URL % ticker, *params
+      if params.length == 1
+        @results[params[0]]
+      else
+        @results.keep_if { |r| params.include?(r) }
       end
+    end
 
-      private
+    [:price, :change, :pct_change, :date, :time, :bid, :ask, :open, :high,
+      :low, :volume, :mkt_cap, :p_e].each do |method_name|
+      define_method method_name do
+        get method_name
+      end
+    end
 
-      # The URL for Bloomberg's quotes service
-      BLOOMBERG_URL = "http://www.bloomberg.com/apps/quote?ticker=%s"
+    private
 
-      # Returns an intepretation of an abbreviated source name
-      def shorten_source(source)
-        case source.downcase.to_sym
-        when :"", :bloomberg, :bberg, :bb, :b
-          :bloomberg
-        when :google, :goog, :g
-          :google
-        when :yahoo!, :yahoo, :yhoo, :y!, :y
-          :yahoo
-        end
+    # The URL for Bloomberg's quotes service
+    BLOOMBERG_URL = "http://www.bloomberg.com/apps/quote?ticker=%s"
+
+    # Returns an intepretation of an abbreviated source name
+    def shorten_source(source)
+      case source.downcase.to_sym
+      when :"", :bloomberg, :bberg, :bb, :b
+        :bloomberg
+      when :google, :goog, :g
+        :google
+      when :yahoo!, :yahoo, :yhoo, :y!, :y
+        :yahoo
+      end
+    end
+
+    def parse(result)
+      begin
+        Float(result)
+      rescue
+        result
       end
     end
   end
