@@ -3,17 +3,6 @@
 #define ACCURACY 0.00001
 #define MAX_ITERATIONS 200
 
-static
-double bond_df(r, time, discrete)
-  double r, time;
-  bool discrete;
-{
-  if (discrete)
-    return 1.0 / pow(1.0 + r, time);
-  else
-    return exp(-r * time);
-}
-
 double
 bond_conv(times, cflows, r, len, discrete)
   double *times, *cflows, r;
@@ -34,7 +23,7 @@ bond_conv(times, cflows, r, len, discrete)
     else
       time_sq = pow(time, 2);
 
-    C += cflows[i] * time_sq * bond_df(r, time, discrete);
+    C += cflows[i] * time_sq * simple_df(r, time, discrete);
   }
 
   B = bond_price(times, cflows, r, len, discrete);
@@ -62,7 +51,7 @@ bond_dur(times, cflows, r, len, discrete)
     double time, dcflow;
 
     time = times[i];
-    dcflow = cflows[i] * bond_df(r, time, discrete);
+    dcflow = cflows[i] * simple_df(r, time, discrete);
 
   	S  += dcflow;
  	  D1 += dcflow * time;
@@ -82,7 +71,7 @@ bond_price(times, cflows, r, len, discrete)
   p = 0;
 
   for (i = 0; i < len; i++)
-  	p += cflows[i] * bond_df(r, times[i], discrete);
+  	p += cflows[i] * simple_df(r, times[i], discrete);
 
   return p;
 };
@@ -288,10 +277,11 @@ init_bond()
   VALUE klass, singleton;
 
 #if 0
-  value module = rb_define_module("rupee");
+  VALUE module = rb_define_module("Rupee");
+  VALUE superklass = rb_define_class_under(module, "Security", rb_cObject);
 #endif
 
-  klass = rb_define_class_under(module, "Bond", rb_cObject);
+  klass = rb_define_class_under(module, "Bond", superklass);
   singleton = rb_singleton_class(klass);
 
   rb_define_singleton_method(klass, "convexity", convexity_discrete, 3);
@@ -307,6 +297,7 @@ init_bond()
   rb_define_singleton_method(klass, "macaulay", macaulay_discrete, 3);
   rb_define_alias(singleton, "macaulary_duration", "macaulay");
   rb_define_singleton_method(klass, "price", price_discrete, 3);
+  rb_define_alias(singleton, "value", "price");
   rb_define_singleton_method(klass, "yield_to_maturity", yield_to_maturity_discrete, 3);
   rb_define_alias(singleton, "yield", "yield_to_maturity");
   rb_define_alias(singleton, "ytm", "yield_to_maturity");

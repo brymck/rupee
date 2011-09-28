@@ -1,5 +1,7 @@
 require "rupee/rupee" # keep this as the first require
 require "rupee/version"
+require "rupee/security"
+require "rupee/option.rb"
 
 # Rupee aims to provide user-friendly tools for use in financial applications.
 # The gem is in its development stages, but it currently offers:
@@ -16,5 +18,6 @@ require "rupee/version"
 
 # This module contains all modules and classes associated with Rupee
 module Rupee
+  # autoload :Option, "rupee/option.rb"
   autoload :Quote, "rupee/quote"
 end

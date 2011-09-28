@@ -164,9 +164,10 @@ init_option()
 
 #if 0
   VALUE module = rb_define_module("Rupee");
+  VALUE superklass = rb_define_class_under(module, "Security", rb_cObject);
 #endif
 
-  klass = rb_define_class_under(module, "Option", rb_cObject);
+  klass = rb_define_class_under(module, "Option", superklass);
   singleton = rb_singleton_class(klass);
 
   rb_define_singleton_method(klass, "black76", rupee_black76, 6);
