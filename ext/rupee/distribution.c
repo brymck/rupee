@@ -53,7 +53,7 @@ init_distribution()
   VALUE klass, singleton;
 
 #if 0
-  value module = rb_define_module("rupee");
+  VALUE module = rb_define_module("Rupee");
 #endif
 
   klass = rb_define_class_under(module, "Distribution", rb_cObject);

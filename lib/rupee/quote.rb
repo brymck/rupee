@@ -3,7 +3,23 @@ autoload :Net, "net/http"
 autoload :URI, "uri"
 
 module Rupee
-  # The quote and data import functionality in Rupee
+  # An object representing a security quote from an online source. With a
+  # Rupee::Quote object, you can retrieve the most recent information on a
+  # particular security using either the <tt>get</tt> method or the helper
+  # methods for each parameter (e.g. <tt>price</tt>, <tt>change</tt>):
+  #
+  #   require "rupee/quote"
+  #
+  #   wfc = Rupee::Quote.new("WFC")
+  #
+  #   wfc.get :price, :change, :pct_change
+  #   #=> {:price=>24.96, :change=>0.17, :pct_change =>0.686}
+  #
+  #   wfc.price
+  #   #=> 24.96
+  #
+  #   wfc.change
+  #   #=> 0.17
   class Quote
     # A ticker symbol
     attr_accessor :ticker
@@ -11,19 +27,29 @@ module Rupee
     # The name of the quote source
     attr_accessor :source
 
-    # The cached HTML
-    attr :html
-
     # The frequency in seconds that a quote's information should be updated
     attr_accessor :frequency
 
     # The time at which the next pull from the online quote source will occur
     attr :next_pull
 
+    # Creates a new Rupee::Quote object.
+    #
+    #   wfc = Rupee::Quote.new("WFC")
+    #
+    # is equivalent to
+    # 
+    #   wfc = Rupee::Quote.new("WFC", :source => :bloomberg, :frequency => 15)
+    # 
+    # Configuration options
+    #
+    # * <tt>:source</tt> - The name of the source (default is +:bloomberg+).
+    # * <tt>:frequency</tt> - How often the quote will seek new values from the
+    #   quote source, in seconds (default is +15+).
     def initialize(ticker, opts = {})
       opts = { :source => :bloomberg, :frequency => 15 }.merge opts
       @ticker = ticker
-      @source = Quote.sources[opts[:source]]
+      @source = shorten_source(Quote.sources[opts[:source]])
       @frequency = opts[:frequency]
       @next_pull = Time.now
     end
@@ -58,6 +84,9 @@ module Rupee
       end
     end
 
+    # call-seq: Rupee#price
+    #
+    # Blah
     [:price, :change, :pct_change, :date, :time, :bid, :ask, :open, :high,
       :low, :volume, :mkt_cap, :p_e].each do |method_name|
       define_method method_name do
@@ -65,7 +94,7 @@ module Rupee
       end
     end
 
-    def frequency=(x)
+    def frequency=(x) # :nodoc:
       @next_pull += (x - @frequency)
       @frequency = x
     end
@@ -87,6 +116,10 @@ module Rupee
       end
     end
 
+    # Parses an object that might be a number
+    #
+    #   parse "15"  #=> 15
+    #   parse "abc" #=> "abc"
     def parse(result)
       begin
         Float(result)

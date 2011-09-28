@@ -295,7 +295,7 @@ init_bond()
   rb_define_singleton_method(klass, "duration", duration_discrete, 3);
   rb_define_alias(singleton, "dur", "duration");
   rb_define_singleton_method(klass, "macaulay", macaulay_discrete, 3);
-  rb_define_alias(singleton, "macaulary_duration", "macaulay");
+  rb_define_alias(singleton, "macaulay_duration", "macaulay");
   rb_define_singleton_method(klass, "price", price_discrete, 3);
   rb_define_alias(singleton, "value", "price");
   rb_define_singleton_method(klass, "yield_to_maturity", yield_to_maturity_discrete, 3);

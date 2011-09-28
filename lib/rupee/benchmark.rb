@@ -3,7 +3,9 @@ module Rupee
   class Benchmark
     class << self
       # Black-Scholes option price valuation
+      #
       # by Michael Neumann (with some revisions)
+      #
       # http://www.espenhaug.com/black_scholes.html
       def black_scholes(callPutFlag, s, x, t, r, v)
         d1 = (Math.log(s / x) + (r + v * v / 2.0) * t) / (v * Math.sqrt(t))
@@ -17,14 +19,16 @@ module Rupee
 
       private
 
-      A1 =  0.31938153
-      A2 = -0.356563782
-      A3 =  1.781477937
-      A4 = -1.821255978
-      A5 =  1.330274429
+      A1 =  0.31938153   # :nodoc:
+      A2 = -0.356563782  # :nodoc:
+      A3 =  1.781477937  # :nodoc:
+      A4 = -1.821255978  # :nodoc:
+      A5 =  1.330274429  # :nodoc:
 
       # Cumulative normal distribution
+      #
       # by Michael Neumann (with some revisions)
+      #
       # http://www.espenhaug.com/black_scholes.html
       def cnd(x)
         l = x.abs
