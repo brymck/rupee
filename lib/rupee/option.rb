@@ -29,7 +29,7 @@ module Rupee
   end
 
   # The same thing as Rupee::Option, but with the <tt>:type</tt> flag set to
-  # +"call"+
+  # <tt>"call"</tt>
   class Call < Option
     def initialize(opts = {}) # :nodoc:
       @type = "call"
@@ -38,7 +38,7 @@ module Rupee
   end
 
   # The same thing as Rupee::Option, but with the <tt>:type</tt> flag set to
-  # +"put"+
+  # <tt>"put"</tt>
   class Put < Option
     def initialize(opts = {}) # :nodoc:
       @type = :put
