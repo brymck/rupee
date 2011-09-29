@@ -1,0 +1,4 @@
+begin
+  require "test_notifier/runner/autotest"
+rescue LoadError
+end
