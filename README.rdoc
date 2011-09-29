@@ -66,9 +66,9 @@ Fargo using the following (note that you only need to <tt>require</tt> the
   wfc.change
   #=> 0.17
 
-<tt>wfc.get</tt> will return a hash of the requested information for the security.
-Each valid parameter will also have its own utility method. The results will
-update every <tt>wfc.frequency</tt> seconds (defaults to 15).
+<tt>wfc.get</tt> will return a hash of the requested information for the
+security. Each valid parameter will also have its own utility method. The
+results will update every <tt>wfc.frequency</tt> seconds (defaults to 15).
 
 Got it? Good. This will surely help you collect some rupees in real life.
 
@@ -95,8 +95,8 @@ faster than the same thing in Ruby.
 Also, if you're doing a valuation on a one-off set of examples (e.g. in a Monte
 Carlo simulation), you probably don't want to create an object every time.
 Something like <tt>Rupee::Option.black_scholes ...</tt> should work just fine.
-Creating a <tt>Rupee::Option</tt> object takes roughly the same amount of time as
-running <tt>Rupee::Option.black_scholes</tt> a dozen times.
+Creating a <tt>Rupee::Option</tt> object takes roughly the same amount of time
+as running <tt>Rupee::Option.black_scholes</tt> a dozen times.
 
 However, if you're creating and reusing an object, I strongly recommend
 preserving the object orientation of Ruby: the penalty for using a new instance
