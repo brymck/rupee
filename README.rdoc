@@ -4,7 +4,7 @@ Homepage::      http://www.brymck.com
 Author::        Bryan McKelvey
 Copyright::     (c) 2011 Bryan McKelvey
 License::       MIT
-Documentation:: http://brymck.herokuapp.com/rupee/
+Documentation:: {brymck.herokuapp.com/rupee/}[http://brymck.herokuapp.com/rupee/]
 
         /|\
        / | \
