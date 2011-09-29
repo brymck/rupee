@@ -79,9 +79,9 @@ call option with Black-Scholes 100,000 times. You can test the same on yours
 with rake, but in any case it makes the point that for the mathematical side
 of finance a native extension has substantial benefits:
 
-  rake benchmark:black_scholes
+  rake benchmark
 
-Results:
+Results for Black-Scholes:
 
                             user     system      total        real
   Rupee (class):        0.190000   0.000000   0.190000 (  0.194001)
