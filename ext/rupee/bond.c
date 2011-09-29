@@ -224,6 +224,24 @@ macaulay_discrete(self, _times, _cflows, _price)
   return macaulay(self, _times, _cflows, _price, true);
 }
 
+// Modified duration of a discretely compounded bond
+static VALUE
+modified_discrete(self, _times, _cflows, _price)
+  VALUE self, _times, _cflows, _price;
+{
+  int len = RARRAY_LEN(_cflows);
+  double y, D, times[len], cflows[len], price;
+
+  rtofa(times, _times, len);
+  rtofa(cflows, _cflows, len);
+  price = NUM2DBL(_price);
+
+  y = bond_ytm(times, cflows, price, len, true);
+  D = bond_dur(times, cflows, y, len, true);
+
+  return rb_float_new(D / (1 + y));
+};
+
 // Price of a continuously compounded bond
 static VALUE
 price_continuous(self, _times, _cflows, _r)
@@ -296,6 +314,8 @@ init_bond()
   rb_define_alias(singleton, "dur", "duration");
   rb_define_singleton_method(klass, "macaulay", macaulay_discrete, 3);
   rb_define_alias(singleton, "macaulay_duration", "macaulay");
+  rb_define_singleton_method(klass, "modified", modified_discrete, 3);
+  rb_define_alias(singleton, "modified_duration", "modified");
   rb_define_singleton_method(klass, "price", price_discrete, 3);
   rb_define_alias(singleton, "value", "price");
   rb_define_singleton_method(klass, "yield_to_maturity", yield_to_maturity_discrete, 3);

@@ -49,7 +49,7 @@ module Rupee
     def initialize(ticker, opts = {})
       opts = { :source => :bloomberg, :frequency => 15 }.merge opts
       @ticker = ticker
-      @source = shorten_source(Quote.sources[opts[:source]])
+      @source = Quote.sources[opts[:source]]
       @frequency = opts[:frequency]
       @next_pull = Time.now
     end
@@ -61,10 +61,9 @@ module Rupee
 
       if now >= @next_pull
         @next_pull = now + @frequency
-        url = BLOOMBERG_URL % ticker
         @results = {}
-        url = URI.parse(url)
-        @html = Net::HTTP.start(url.host, url.port) do |http|
+        url = URI.parse(@source.url % ticker)
+        html = Net::HTTP.start(url.host, url.port) do |http|
           http.get url.request_uri
         end.body
 
@@ -100,21 +99,6 @@ module Rupee
     end
 
     private
-
-    # The URL for Bloomberg's quotes service
-    BLOOMBERG_URL = "http://www.bloomberg.com/apps/quote?ticker=%s"
-
-    # Returns an intepretation of an abbreviated source name
-    def shorten_source(source)
-      case source.downcase.to_sym
-      when :"", :bloomberg, :bberg, :bb, :b
-        :bloomberg
-      when :google, :goog, :g
-        :google
-      when :yahoo!, :yahoo, :yhoo, :y!, :y
-        :yahoo
-      end
-    end
 
     # Parses an object that might be a number
     #

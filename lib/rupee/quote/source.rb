@@ -4,14 +4,14 @@ module Rupee
     class Source
       # The name of the source
       attr :name
-
+      # The full URL for where the security information is located, where
+      # <tt>%s</tt> is a query parameter
+      attr :url
       # The parameters available
       attr :params
 
-      def initialize(name, aliases = [], params = {})
-        @name = name
-        @aliases = aliases
-        @params = params
+      def initialize(name, url, params = {})
+        @name, @url, @params = name, url, params
       end
     end
 
@@ -27,7 +27,8 @@ module Rupee
         @sources ||= {}
 
         # Bloomberg
-        @sources[:bloomberg] = Source.new(:bloomberg, [:bberg, :bb, :b], 
+        @sources[:bloomberg] = Source.new(:bloomberg,
+          "http://www.bloomberg.com/apps/quote?ticker=%s",
           :price => /(?:PRICE|VALUE): <span class="amount">([0-9.,NA-]{1,})/,
           :change => /Change<\/td>\n<td class="value[^>]+>([0-9.,NA-]{1,})/,
           :pct_change => /Change<\/td>\n<td class="value[^>]+>[0-9.,NA-]{1,} \(([0-9NA.,-]{1,})\%/,
@@ -41,8 +42,8 @@ module Rupee
           :volume => /Volume<\/td>\n<td class="value[^>]+>([0-9.,NA-]{1,})/,
           :mkt_cap => /Market Cap[^<]+<\/td>\n<td class="value">([0-9.,NA-]{1,})/,
           :p_e     => /Price\/Earnings[^<]+<\/td>\n<td class="value">([0-9.,NA-]{1,})/)
-        @sources[:yahoo] = Source.new(:yahoo)
-        @sources[:google] = Source.new(:google)
+        @sources[:yahoo] = Source.new(:yahoo, "yahoo.com")
+        @sources[:google] = Source.new(:google, "google.com")
         @default_source = :bloomberg
       end
     end
