@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.extensions    = "ext/rupee/extconf.rb"
   s.require_paths = ["lib", "ext"]
 
-  s.add_development_dependency "bundler",       "~> 1.0"
-  s.add_development_dependency "rspec",         "~> 2.0"
+  s.add_development_dependency "bundler", "~> 1.0"
+  s.add_development_dependency "rspec",   "~> 2.0"
+  s.add_development_dependency "sdoc",    "~> 0.3"
 end
