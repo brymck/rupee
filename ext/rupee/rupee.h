@@ -16,6 +16,7 @@ double simple_df(double r, double time, bool discrete);
 
 /* Statistics */
 double cnd(double);
+double std(double *, int);
 void init_distribution();
 
 /* Options */

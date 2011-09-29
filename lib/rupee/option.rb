@@ -24,7 +24,8 @@ module Rupee
     attr_alias :value, :price
 
     def black_scholes
-      @value = self.class.black_scholes @type.to_s, @underlying, @strike, @time, @rate, @div_yield, @volatility
+      @value = self.class.black_scholes @type.to_s, @underlying, @strike,
+        @time, @rate, @div_yield, @volatility
     end
   end
 
