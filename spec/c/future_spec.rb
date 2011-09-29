@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + "/../spec_helper"
 
-describe Rupee::Future do
+describe Future do
   before :each do
     @tolerance = 0.001
     @underlying = 100
@@ -9,7 +9,7 @@ describe Rupee::Future do
   end
 
   it "should produce an accurate price" do
-    Rupee::Future.price(@underlying, @rfr, @ttm).should(
+    Future.price(@underlying, @rfr, @ttm).should(
       be_within(@tolerance).of 105.127
     )
   end

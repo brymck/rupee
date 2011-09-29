@@ -1,14 +1,14 @@
 require File.dirname(__FILE__) + "/../spec_helper"
 
-describe Rupee::Quote do
+describe Quote do
   it "should automatically have a Bloomberg source" do
-    Rupee::Quote.sources.should include :bloomberg
+    Quote.sources.should include :bloomberg
   end
 
   describe "when pulling quotes" do
     describe "without any parameters specified" do
       before :each do
-        @wfc = Rupee::Quote.new("WFC")
+        @wfc = Quote.new("WFC")
       end
 
       it "should default to pulling the price" do

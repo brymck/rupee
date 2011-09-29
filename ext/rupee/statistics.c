@@ -32,18 +32,85 @@ cnd(z)
 }
 
 double
-mean(values, len)
+sum_prod(xvals, yvals, len)
+  double *xvals, *yvals;
+  int len;
+{
+  double result;
+  int i;
+
+  result = 0;
+
+  for (i = 0; i < len; i++)
+    result += xvals[i] * yvals[i];
+
+  return result;
+}
+
+double
+corr(xvals, yvals, len)
+  double *xvals, *yvals;
+  int len;
+{
+  return cov(xvals, yvals, len) / std(xvals, len) / std(yvals, len);
+}
+
+double
+cov(xvals, yvals, len)
+  double *xvals, *yvals;
+  int len;
+{
+  double result, x_bar, y_bar;
+  int i;
+
+  result = 0;
+  x_bar = mean(xvals, len);
+  y_bar = mean(yvals, len);
+
+  for (i = 0; i < len; i++)
+    result += (xvals[i] - x_bar) * (yvals[i] - y_bar);
+
+  return result / len;
+}
+
+double
+var(values, len)
+  double *values;
+  int len;
+{
+  double x_bar, result;
+  int i;
+  result = 0;
+
+  x_bar = mean(values, len);
+
+  for (i = 0; i < len; i++)
+    result += pow(values[i] - x_bar, 2);
+
+  return result / len;
+}
+
+double
+sum(values, len)
   double *values;
   int len;
 {
   double result;
   int i;
   result = 0;
-  
+
   for (i = 0; i < len; i++)
     result += values[i];
+  
+  return result;
+}
 
-  return result / len;
+double
+mean(values, len)
+  double *values;
+  int len;
+{
+  return sum(values, len) / len;
 }
 
 double
@@ -51,16 +118,7 @@ std(values, len)
   double *values;
   int len;
 {
-  double bar_x, result;
-  int i;
-  result = 0;
-
-  bar_x = mean(values, len);
-
-  for (i = 0; i < len; i++)
-    result += pow(values[i] - bar_x, 2);
-
-  return sqrt(result / (len - 1));
+  return sqrt(var(values, len));
 }
 
 /* call-seq: cnd(z)
@@ -80,15 +138,77 @@ rupee_cnd(self, _z)
 }
 
 static VALUE
+rupee_corr(self, _xvals, _yvals)
+  VALUE self, _xvals, _yvals;
+{
+  int len = RARRAY_LEN(_xvals);
+  double xvals[len], yvals[len];
+
+  rtofa(xvals, _xvals, len);
+  rtofa(yvals, _yvals, len);
+
+  return rb_float_new(corr(xvals, yvals, len));
+}
+
+static VALUE
+rupee_cov(self, _xvals, _yvals)
+  VALUE self, _xvals, _yvals;
+{
+  int len = RARRAY_LEN(_xvals);
+  double xvals[len], yvals[len];
+
+  rtofa(xvals, _xvals, len);
+  rtofa(yvals, _yvals, len);
+
+  return rb_float_new(cov(xvals, yvals, len));
+}
+
+static VALUE
+rupee_mean(self, _values)
+  VALUE self, _values;
+{
+  int len = RARRAY_LEN(_values);
+  double values[len];
+
+  rtofa(values, _values, len);
+
+  return rb_float_new(mean(values, len));
+}
+
+static VALUE
 rupee_std(self, _values)
   VALUE self, _values;
 {
   int len = RARRAY_LEN(_values);
-  double *values;
+  double values[len];
 
   rtofa(values, _values, len);
 
   return rb_float_new(std(values, len));
+}
+
+static VALUE
+rupee_sum(self, _values)
+  VALUE self, _values;
+{
+  int len = RARRAY_LEN(_values);
+  double values[len];
+
+  rtofa(values, _values, len);
+
+  return rb_float_new(sum(values, len));
+}
+
+static VALUE
+rupee_var(self, _values)
+  VALUE self, _values;
+{
+  int len = RARRAY_LEN(_values);
+  double values[len];
+
+  rtofa(values, _values, len);
+
+  return rb_float_new(var(values, len));
 }
 
 void
@@ -103,9 +223,21 @@ init_distribution()
   klass = rb_define_class_under(module, "Statistics", rb_cObject);
   singleton = rb_singleton_class(klass);
 
+  rb_define_singleton_method(klass, "correlation", rupee_corr, 2);
+  rb_define_alias(singleton, "corr", "correlation");
+  rb_define_alias(singleton, "correl", "correlation");
+  rb_define_singleton_method(klass, "covariance", rupee_cov, 2);
+  rb_define_alias(singleton, "cov", "covariance");
+  rb_define_alias(singleton, "covar", "covariance");
   rb_define_singleton_method(klass, "cumulative_normal_distribution", rupee_cnd, 1);
   rb_define_alias(singleton, "cnd", "cumulative_normal_distribution");
+  rb_define_singleton_method(klass, "mean", rupee_mean, 1);
+  rb_define_alias(singleton, "average", "mean");
+  rb_define_alias(singleton, "avg", "mean");
   rb_define_singleton_method(klass, "standard_deviation", rupee_std, 1);
   rb_define_alias(singleton, "std", "standard_deviation");
   rb_define_alias(singleton, "stdev", "standard_deviation");
+  rb_define_singleton_method(klass, "sum", rupee_sum, 1);
+  rb_define_singleton_method(klass, "variance", rupee_var, 1);
+  rb_define_alias(singleton, "var", "variance");
 }

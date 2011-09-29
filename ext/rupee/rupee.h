@@ -16,7 +16,13 @@ double simple_df(double r, double time, bool discrete);
 
 /* Statistics */
 double cnd(double);
+double corr(double *, double *, int);
+double cov(double *, double *, int);
+double mean(double *, int);
 double std(double *, int);
+double sum(double *, int);
+double sum_prod(double *, double *, int);
+double var(double *, int);
 void init_distribution();
 
 /* Options */
