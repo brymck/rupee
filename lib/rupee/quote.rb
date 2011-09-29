@@ -12,8 +12,8 @@ module Rupee
   #
   #   wfc = Rupee::Quote.new("WFC")
   #
-  #   wfc.get :price, :change, :pct_change
-  #   #=> {:price=>24.96, :change=>0.17, :pct_change =>0.686}
+  #   wfc.get :price, :change, :pct_chg
+  #   #=> {:price=>24.96, :change=>0.17, :pct_chg =>0.686}
   #
   #   wfc.price
   #   #=> 24.96
