@@ -1,8 +1,10 @@
 #!/bin/bash
 echo "Installing and running RSpec tests on all supported Rubies..."
 
+# Save current Ruby in use under RVM
 CURRENT=`rvm current`
 
+# Prints the name of the Ruby, sets it to use under RVM, installs, tests
 function test_ruby {
   echo -e "\n\033[1m$1\033[0m"
   rvm use $1
@@ -10,8 +12,10 @@ function test_ruby {
   rspec spec
 }
 
+# Run tests on these versions
 test_ruby 1.8.7
 test_ruby 1.9.2
 test_ruby 1.9.3
 
+# Restore original Ruby in use
 rvm use $CURRENT
