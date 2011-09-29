@@ -40,8 +40,15 @@ module Rupee
       #   attr_accessor :price
       #   attr_alias :value, :price
       # 
-      # would add both a <tt>value</tt> and a <tt>value=</tt> that are equivalent
-      # to their <tt>price</tt> counterparts.
+      # would add both a <tt>value</tt> and a <tt>value=</tt> that are
+      # equivalent to their <tt>price</tt> counterparts and would modify the
+      # <tt>@price</tt> instance variable. On the other hand,
+      #
+      #   attr :price
+      #   attr_alias :value, :price
+      # 
+      # would only add  <tt>value</tt> method that's equivalent to
+      # <tt>price</tt>.
       def attr_alias(new_read, old_read)
         alias_method(new_read, old_read) if method_defined?(old_read)
         new_write = "#{new_read}="

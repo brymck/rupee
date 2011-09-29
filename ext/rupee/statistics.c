@@ -125,10 +125,6 @@ std(values, len)
  *
  * Returns the standard normal cumulative distribution (has a mean of zero and
  * a standard deviation of one).
- *
- * ==== Arguments
- *
- * * +z+ - The value for which you want the distribution
  */
 static VALUE
 rupee_cnd(self, _z)
@@ -137,6 +133,10 @@ rupee_cnd(self, _z)
   return rb_float_new(cnd(NUM2DBL(_z)));
 }
 
+/* call-seq: correlation(xvalues, yvalues)
+ *
+ * Returns the correlation of the supplied x- and y-values.
+ */
 static VALUE
 rupee_corr(self, _xvals, _yvals)
   VALUE self, _xvals, _yvals;
@@ -150,6 +150,10 @@ rupee_corr(self, _xvals, _yvals)
   return rb_float_new(corr(xvals, yvals, len));
 }
 
+/* call-seq: covariance(xvalues, yvalues)
+ *
+ * Returns the covariance of the supplied x- and y-values.
+ */
 static VALUE
 rupee_cov(self, _xvals, _yvals)
   VALUE self, _xvals, _yvals;
@@ -163,6 +167,10 @@ rupee_cov(self, _xvals, _yvals)
   return rb_float_new(cov(xvals, yvals, len));
 }
 
+/* call-seq: mean(values)
+ *
+ * Finds the mean of the specified values.
+ */
 static VALUE
 rupee_mean(self, _values)
   VALUE self, _values;
@@ -175,6 +183,10 @@ rupee_mean(self, _values)
   return rb_float_new(mean(values, len));
 }
 
+/* call-seq: standard_deviation(values)
+ *
+ * Finds the standard deviation of the specified values.
+ */
 static VALUE
 rupee_std(self, _values)
   VALUE self, _values;
@@ -187,6 +199,10 @@ rupee_std(self, _values)
   return rb_float_new(std(values, len));
 }
 
+/* call-seq: sum(values)
+ *
+ * Finds the sum of the specified values.
+ */
 static VALUE
 rupee_sum(self, _values)
   VALUE self, _values;
@@ -199,6 +215,10 @@ rupee_sum(self, _values)
   return rb_float_new(sum(values, len));
 }
 
+/* call-seq: variance(values)
+ *
+ * Finds the variance of the specified values.
+ */
 static VALUE
 rupee_var(self, _values)
   VALUE self, _values;
