@@ -93,6 +93,17 @@ module Rupee
       end
     end
 
+    # The bid-ask spread
+    def bid_ask
+      b, a = bid, ask
+
+      if b.nil? || a.nil?
+        nil
+      else
+        (a - b).round precision(a, b)
+      end
+    end
+
     def frequency=(x) # :nodoc:
       @next_pull += (x - @frequency)
       @frequency = x
@@ -110,6 +121,22 @@ module Rupee
       rescue
         result
       end
+    end
+
+    # Scans the values provided for the number with the greatest number of
+    # decimal places, then returns that number of decimal places
+    #
+    #   precision 0, 1.5, 2.25, 3 #=> 2
+    def precision(*values)
+      values.map do |value|
+        temp = value.to_s.split(".")
+
+        if temp.length > 1
+          temp[1].length
+        else
+          0
+        end
+      end.max
     end
   end
 end
