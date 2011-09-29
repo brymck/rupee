@@ -106,7 +106,7 @@ module Rupee
     #   parse "abc" #=> "abc"
     def parse(result)
       begin
-        Float(result)
+        Float(result.gsub /,/, "")
       rescue
         result
       end

@@ -27,5 +27,29 @@ describe Quote do
         @wfc.next_pull.should == orig_pull - freq_change
       end
     end
+
+    describe "specifying Google Finance as the quote service" do
+      before :each do
+        @goog = Quote.new("GOOG", :source => :google)
+      end
+
+      it "should have around the same price as Bloomberg" do
+        bb_price = Quote.new("GOOG").price
+        bb_price.should be_a_kind_of Float
+        @goog.price.should be_within(0.05).of bb_price
+      end
+    end
+
+    describe "specifying Yahoo! Finance as the quote service" do
+      before :each do
+        @yahoo = Quote.new("YHOO", :source => :yahoo)
+      end
+
+      it "should have around the same price as Bloomberg" do
+        bb_price = Quote.new("YHOO").price
+        bb_price.should be_a_kind_of Float
+        @yahoo.price.should be_within(0.05).of bb_price
+      end
+    end
   end
 end
