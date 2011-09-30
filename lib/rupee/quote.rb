@@ -59,7 +59,7 @@ module Rupee
 
     # Retrieves the current information for a security
     #
-    #   Rupee::Quote.new("WFC").get :price, :change, :pct_chg
+    #   Rupee::Quote.new(:wfc).get :price, :change, :pct_chg
     #   #=> {:price=>24.96, :change=>0.17, :pct_chg =>0.686}
     def get(*params)
       now = Time.now
@@ -91,7 +91,7 @@ module Rupee
 
     # Retrieves the current information for a security
     #
-    #   Rupee::Quote.new("WFC")[:price, :change, :pct_chg]
+    #   Rupee::Quote.new(:wfc)[:price, :change, :pct_chg]
     #   #=> {:price=>24.96, :change=>0.17, :pct_chg =>0.686}
     alias :[] :get
 
