@@ -2,6 +2,16 @@
 
 #define PI 3.1415926536
 
+// DISTRIBUTIONS
+
+double
+bnd(x, y, rho)
+  double x, y, rho;
+{
+  return exp(-1.0 / (2.0 * (1.0 - rho * rho)) * (x * x + y * y - 2.0 * x * y * rho)) /
+    (2.0 * PI * sqrt(1.0 - rho * rho));
+}
+
 double
 cnd(z)
   double z;
@@ -29,6 +39,71 @@ cnd(z)
     return 1.0 - dCND;
   else
     return dCND;
+}
+
+double
+cndev(U)
+  double U;
+{
+  double x;
+  double r;
+
+  static const double A0 = 2.50662823884;
+  static const double A1 = -18.61500062529;
+  static const double A2 = 41.39119773534;
+  static const double A3 = -25.44106049637;
+
+  static const double B0 = -8.4735109309;
+  static const double B1 = 23.08336743743;
+  static const double B2 = -21.06224101826;
+  static const double B3 = 3.1308290983;
+
+  static const double C0 = 0.337475482272615;
+  static const double C1 = 0.976169019091719;
+  static const double C2 = 0.160797971491821;
+  static const double C3 = 2.76438810333863e-02;
+  static const double C4 = 3.8405729373609e-03;
+  static const double C5 = 3.951896511919e-04;
+  static const double C6 = 3.21767881767818e-05;
+  static const double C7 = 2.888167364e-07;
+  static const double C8 = 3.960315187e-07;
+
+  x = U - .5;
+  if (abs(x) < .92) {
+    r = x * x;
+    r = x * (((A3 * r + A2) * r + A1) * r + A0) /
+      ((((B3 * r + B2) * r + B1) * r + B0) * r + 1.0);
+    return r;
+  }
+  else {
+    if (x >= 0.0)
+      r = 1.0 - U;
+    else
+      r = U;
+
+    r = log(-log(r));
+    r = C0 + r * (C1 + r * (C2 + r * (C3 + r + (C4 +
+        r * (C5 + r * (C6 + r * (C7 + r * C8)))))));
+
+    if (x < 0.0)
+      return -r;
+    else
+      return r;
+  }
+}
+
+double
+nd(x)
+  double x;
+{
+  return exp(-x * x / 2.0) / sqrt(2.0 * PI);
+}
+
+double
+pdf(z)
+  double z;
+{
+  return exp(-(z * z) / 2) / sqrt(2 * PI);
 }
 
 double
@@ -121,6 +196,23 @@ std(values, len)
   return sqrt(var(values, len));
 }
 
+/* call-seq: bnd(x, y, rho)
+ *
+ * Returns the bivariate normal distribution function
+ */
+static VALUE
+rupee_bnd(self, _x, _y, _rho)
+  VALUE self, _x, _y, _rho;
+{
+  double x, y, rho;
+
+  x = NUM2DBL(_x);
+  y = NUM2DBL(_y);
+  rho = NUM2DBL(_rho);
+
+  return rb_float_new(bnd(x, y, rho));
+}
+
 /* call-seq: cnd(z)
  *
  * Returns the standard normal cumulative distribution (has a mean of zero and
@@ -131,6 +223,17 @@ rupee_cnd(self, _z)
   VALUE self, _z;
 {
   return rb_float_new(cnd(NUM2DBL(_z)));
+}
+
+/* call-seq: cndev(U)
+ *
+ * Returns the inverse cumulative normal distribution function
+ */
+static VALUE
+rupee_cndev(self, _U)
+  VALUE self, _U;
+{
+  return rb_float_new(cndev(NUM2DBL(_U)));
 }
 
 /* call-seq: correlation(xvalues, yvalues)
@@ -181,6 +284,28 @@ rupee_mean(self, _values)
   rtofa(values, _values, len);
 
   return rb_float_new(mean(values, len));
+}
+
+/* call-seq: nd(x)
+ *
+ * Returns the normal distribution function
+ */
+static VALUE
+rupee_nd(self, _x)
+  VALUE self, _x;
+{
+  return rb_float_new(nd(NUM2DBL(_x)));
+}
+
+/* call-seq: pdf(z)
+ *
+ * Returns the probability density function
+ */
+static VALUE
+rupee_pdf(self, _z)
+  VALUE self, _z;
+{
+  return rb_float_new(pdf(NUM2DBL(_z)));
 }
 
 /* call-seq: standard_deviation(values)
@@ -243,6 +368,8 @@ init_distribution()
   klass = rb_define_class_under(module, "Statistics", rb_cObject);
   singleton = rb_singleton_class(klass);
 
+  rb_define_singleton_method(klass, "bivariate_normal_distribution", rupee_bnd, 3);
+  rb_define_alias(singleton, "bnd", "bivariate_normal_distribution");
   rb_define_singleton_method(klass, "correlation", rupee_corr, 2);
   rb_define_alias(singleton, "corr", "correlation");
   rb_define_alias(singleton, "correl", "correlation");
@@ -251,9 +378,15 @@ init_distribution()
   rb_define_alias(singleton, "covar", "covariance");
   rb_define_singleton_method(klass, "cumulative_normal_distribution", rupee_cnd, 1);
   rb_define_alias(singleton, "cnd", "cumulative_normal_distribution");
+  rb_define_singleton_method(klass, "inverse_cumulative_normal_distribution", rupee_cndev, 1);
+  rb_define_alias(singleton, "cndev", "inverse_cumulative_normal_distribution");
   rb_define_singleton_method(klass, "mean", rupee_mean, 1);
   rb_define_alias(singleton, "average", "mean");
   rb_define_alias(singleton, "avg", "mean");
+  rb_define_singleton_method(klass, "normal_distribution", rupee_cnd, 1);
+  rb_define_alias(singleton, "nd", "normal_distribution");
+  rb_define_singleton_method(klass, "probability_density_function", rupee_pdf, 1);
+  rb_define_alias(singleton, "pdf", "probability_density_function");
   rb_define_singleton_method(klass, "standard_deviation", rupee_std, 1);
   rb_define_alias(singleton, "std", "standard_deviation");
   rb_define_alias(singleton, "stdev", "standard_deviation");

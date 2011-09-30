@@ -44,6 +44,9 @@ module Rupee
     # Configuration options
     #
     # * <tt>:source</tt> - The name of the source (default is +:bloomberg+).
+    #   * <tt>:bloomberg</tt> - The Bloomberg quote service
+    #   * <tt>:google</tt> - The Google Finance quote service
+    #   * <tt>:yahoo</tt> - The Yahoo! quote service
     # * <tt>:frequency</tt> - How often the quote will seek new values from the
     #   quote source, in seconds (default is +15+).
     def initialize(ticker, opts = {})
@@ -54,7 +57,10 @@ module Rupee
       @next_pull = Time.now
     end
 
-    # Retrieves the current price of a security
+    # Retrieves the current information for a security
+    #
+    #   Rupee::Quote.new("WFC").get :price, :change, :pct_chg
+    #   #=> {:price=>24.96, :change=>0.17, :pct_chg =>0.686}
     def get(*params)
       now = Time.now
       params = [:price] if params.empty?
@@ -83,6 +89,12 @@ module Rupee
       end
     end
 
+    # Retrieves the current information for a security
+    #
+    #   Rupee::Quote.new("WFC")[:price, :change, :pct_chg]
+    #   #=> {:price=>24.96, :change=>0.17, :pct_chg =>0.686}
+    alias :[] :get
+
     # call-seq: #price
     #
     # Test
@@ -95,21 +107,38 @@ module Rupee
 
     # The bid-ask spread
     def bid_ask
-      b, a = bid, ask
-
-      if b.nil? || a.nil?
-        nil
-      else
-        (a - b).round precision(a, b)
-      end
+      diff bid, ask
     end
 
-    def frequency=(x) # :nodoc:
+    # The daily trading range
+    def range
+      diff low, high
+    end
+
+    # The daily trading range
+    alias :trading_range :range
+
+    # The setter method for <tt>frequency</tt> also adjusts <tt>next_pull</tt>,
+    # such that if you change <tt>frequency</tt> from <tt>15</tt> to
+    # <tt>5</tt>, <tt>next_pull</tt> will move 10 seconds earlier.
+    def frequency=(x)
       @next_pull += (x - @frequency)
       @frequency = x
     end
 
     private
+
+    # Calculates the difference between <tt>x</tt> and <tt>y</tt>. This is
+    # different from merely subtracting <tt>x</tt> from <tt>y</tt> because of
+    # it forces the result to have the same number of significant digits as
+    # <tt>x</tt> or <tt>y</tt>, adjusted for whichever has more.
+    def diff(x, y)
+      if x.nil? || y.nil?
+        nil
+      else
+        (y - x).round precision(x, y)
+      end
+    end
 
     # Parses an object that might be a number
     #

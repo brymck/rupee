@@ -27,6 +27,14 @@ module Rupee
       @value = self.class.black_scholes @type.to_s, @underlying, @strike,
         @time, @rate, @div_yield, @volatility
     end
+    
+    [:charm, :color, :delta, :dual_delta, :dual_gamma, :dvega_dtime, :gamma,
+      :rho, :speed, :theta, :vanna, :vega, :vomma, :zomma].each do |method_name|
+      define_method method_name do
+        self.class.send method_name, @type, @underlying, @strike, @time,
+          @rate, @div_yield, @volatility
+      end
+    end
   end
 
   # The same thing as Rupee::Option, but with the <tt>:type</tt> flag set to

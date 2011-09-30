@@ -15,10 +15,14 @@ double avg(double x, double y);
 double simple_df(double r, double time, bool discrete);
 
 /* Statistics */
+double bnd(double, double, double);
 double cnd(double);
+double cndev(double);
 double corr(double *, double *, int);
 double cov(double *, double *, int);
 double mean(double *, int);
+double nd(double);
+double pdf(double);
 double std(double *, int);
 double sum(double *, int);
 double sum_prod(double *, double *, int);
@@ -26,8 +30,20 @@ double var(double *, int);
 void init_distribution();
 
 /* Options */
-double gbs(const char *call_put_flag, double S, double X, double T, double r,
-    double b, double v);
+double bs(const char *call_put_flag, double S, double K, double T, double r,
+    double q, double v);
+double bs_gamma(const char *call_put_flag, double S, double K, double T, double r,
+    double q, double v);
+double delta(const char *call_put_flag, double S, double K, double T, double r,
+    double q, double v);
+double gbs(const char *call_put_flag, double S, double K, double T, double r,
+    double q, double v);
+double rho(const char *call_put_flag, double S, double K, double T, double r,
+    double q, double v);
+double theta(const char *call_put_flag, double S, double K, double T, double r,
+    double q, double v);
+double vega(const char *call_put_flag, double S, double K, double T, double r,
+    double q, double v);
 void init_option();
 
 /* Bonds */
