@@ -104,7 +104,7 @@ bs_gamma(call_put_flag, S, K, T, r, q, v)
  * volatility)
  *
  * Returns the delta options Greek (sensitivity to changes in the underlying's
- * price
+ * price)
  */
 static VALUE
 rupee_delta(self, _call_put_flag, _S, _K, _T, _r, _q, _v)
