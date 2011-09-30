@@ -1,12 +1,54 @@
 module Rupee
   # An object representing a calendar, for use in determining the next payout
-  # date for a cash flow
+  # date for a cash flow. Simple example:
+  #
+  #   require "rupee/calendar"
+  #
+  #   module Rupee
+  #     class Calendar
+  #       # It's recommended that you store your calendar inside the Calendar
+  #       # class, as that way you'll have access to them as "constants." Also,
+  #       # it gives you access to the month constants (JANUARY, FEBRUARY,
+  #       # MARCH, etc.)
+  #       MyCalendar = Rupee::Calendar.new("Sample calendar")
+  #
+  #       # Weekends
+  #       MyCalendar.has_weekends_off
+  #  
+  #       # Thanksgiving (fourth Thursday of November
+  #         MyCalendar.has_day_off_when do |date|
+  #         date.month == NOVEMBER && date.thursday? && week_of(date) == 4
+  #       end
+  #    
+  #       # Christmas (December 25 or nearest weekday)
+  #       MyCalendar.has_day_off_when do |date|
+  #         date.month == DECEMBER && nearest_weekday(date, 25)
+  #       end
+  #    
+  #       # New Year's Day (January 1 or next weekday)
+  #       MyCalendar.has_day_off_when do |date|
+  #         date.month == JANUARY && next_weekday(date, 1)
+  #       end
+  #     end
+  #   end
+  #
+  #   # Christmas falls on a Sunday in 2011...
+  #   Rupee::Calendar::MyCalendar.day_off?(Time.new(2011, 12, 25))
+  #   # => true
+  #    
+  #   # ... so we have the following Monday off...
+  #   Rupee::Calendar::MyCalendar.day_off?(Time.new(2011, 12, 26))
+  #   # => true
+  #    
+  #   # ...then it's back to work
+  #   Rupee::Calendar::MyCalendar.day_off?(Time.new(2011, 12, 27))
+  #   # => false
   class Calendar
     # A constant representing the month of January
     JANUARY   = 1
     # A constant representing the month of February
     FEBRUARY  = 2
-    # A constant representing the month of March
+    #  A constant representing the month of March
     MARCH     = 3
     # A constant representing the month of April
     APRIL     = 4
@@ -44,22 +86,18 @@ module Rupee
     # helper methods week_of, nearest_weekday, next_weekday and
     # previous_weekday:
     #
-    #   require "rupee/calendar"
-    #
-    #   cal = Rupee::Calendar.new("Sample calendar")
-    #
     #   # Thanksgiving (fourth Thursday of November
-    #   cal.has_day_off_when do |date|
+    #   MyCalendar.has_day_off_when do |date|
     #     date.month == NOVEMBER && date.thursday? && week_of(date) == 4
     #   end
     #
     #   # Christmas (December 25 or nearest weekday)
-    #   cal.has_day_off_when do |date|
+    #   MyCalendar.has_day_off_when do |date|
     #     date.month == DECEMBER && nearest_weekday(date, 25)
     #   end
     #
     #   # New Year's Day (January 1 or next weekday)
-    #   cal.has_day_off_when do |date|
+    #   MyCalendar.has_day_off_when do |date|
     #     date.month == JANUARY && next_weekday(date, 1)
     #   end
     def has_day_off_when(&block)
@@ -67,13 +105,9 @@ module Rupee
     end
 
     # A simple helper method for the commonality among most countries that
-    # weekends are not workdays or trading days
+    # weekends are not workdays or trading days:
     #
-    #   require "rupee/calendar"
-    #
-    #   cal = Rupee::Calendar.new("Sample calendar")
-    #
-    #   cal.has_weekends_off
+    #   MyCalendar.has_weekends_off
     def has_weekends_off
       @days_off << Proc.new do |date|
         date.saturday? || date.sunday?
