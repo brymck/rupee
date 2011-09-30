@@ -10,7 +10,7 @@ module Rupee
   #
   #   require "rupee/quote"
   #
-  #   wfc = Rupee::Quote.new("WFC")
+  #   wfc = Rupee::Quote.new(:wfc)
   #
   #   wfc.get :price, :change, :pct_chg
   #   #=> {:price=>24.96, :change=>0.17, :pct_chg =>0.686}
@@ -35,11 +35,11 @@ module Rupee
 
     # Creates a new Rupee::Quote object.
     #
-    #   wfc = Rupee::Quote.new("WFC")
+    #   wfc = Rupee::Quote.new(:wfc)
     #
     # is equivalent to
     # 
-    #   wfc = Rupee::Quote.new("WFC", :source => :bloomberg, :frequency => 15)
+    #   wfc = Rupee::Quote.new(:wfc, :source => :bloomberg, :frequency => 15)
     # 
     # Configuration options
     #
@@ -51,7 +51,7 @@ module Rupee
     #   quote source, in seconds (default is +15+).
     def initialize(ticker, opts = {})
       opts = { :source => :bloomberg, :frequency => 15 }.merge opts
-      @ticker = ticker
+      @ticker = ticker.upcase
       @source = Quote.sources[opts[:source]]
       @frequency = opts[:frequency]
       @next_pull = Time.now

@@ -8,7 +8,7 @@ describe Quote do
   describe "when pulling quotes" do
     describe "without any parameters specified" do
       before :each do
-        @wfc = Quote.new("WFC")
+        @wfc = Quote.new(:wfc)
       end
 
       it "should default to pulling the price" do
