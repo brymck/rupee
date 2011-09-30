@@ -19,5 +19,6 @@ require "rupee/option.rb"
 # This module contains all modules and classes associated with Rupee
 module Rupee
   # autoload :Option, "rupee/option.rb"
+  autoload :Calendar, "rupee/calendar"
   autoload :Quote, "rupee/quote"
 end
