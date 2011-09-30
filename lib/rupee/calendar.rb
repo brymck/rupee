@@ -16,17 +16,17 @@ module Rupee
   #       MyCalendar.has_weekends_off
   #  
   #       # Thanksgiving (fourth Thursday of November
-  #         MyCalendar.has_day_off_when do |date|
+  #         MyCalendar.has_day_off_on :thanksgiving do |date|
   #         date.month == NOVEMBER && date.thursday? && week_of(date) == 4
   #       end
   #    
   #       # Christmas (December 25 or nearest weekday)
-  #       MyCalendar.has_day_off_when do |date|
+  #       MyCalendar.has_day_off_on :christmas do |date|
   #         date.month == DECEMBER && nearest_weekday(date, 25)
   #       end
   #    
   #       # New Year's Day (January 1 or next weekday)
-  #       MyCalendar.has_day_off_when do |date|
+  #       MyCalendar.has_day_off_on :new_years do |date|
   #         date.month == JANUARY && next_weekday(date, 1)
   #       end
   #     end
@@ -43,6 +43,35 @@ module Rupee
   #   # ...then it's back to work
   #   Rupee::Calendar::MyCalendar.day_off?(Time.new(2011, 12, 27))
   #   # => false
+  #
+  # You can also inherit from other calendars easily:
+  #
+  #   require "rupee/calendar"
+  #
+  #   class Rupee::Calendar
+  #     # Pirates generally observe the Federal Reserve holiday schedule
+  #     Blackbeard = US.copy
+  #
+  #     # But they do observer Talk Like a Pirate Day
+  #     Blackbeard.has_day_off_on :talk_like_a_pirate_day do |date|
+  #       date.month == SEPTEMBER && date.day == 19
+  #     end
+  #
+  #     # And curse the flag Columbus flew under
+  #     Blackbeard.remove_day_off_for :columbus_day
+  #   end
+  #
+  #   # Talk Like a Pirate Day
+  #   Rupee::Calendar::Blackbeard.day_off?(Time.new(2011, 9, 19))
+  #   # => true
+  #   Rupee::Calendar::US.day_off?(Time.new(2011, 9, 19))
+  #   # => false
+  #
+  #   # Columbus Day
+  #   Rupee::Calendar::Blackbeard.day_off?(Time.new(2011, 10, 10))
+  #   # => false
+  #   Rupee::Calendar::US.day_off?(Time.new(2011, 10, 10))
+  #   # => true
   class Calendar
     # A constant representing the month of January
     JANUARY   = 1
@@ -74,11 +103,24 @@ module Rupee
 
     # A description of the calendar
     attr :description
+    # Functions used to determine whether a day is off
+    attr :days_off
 
     # Builds a calendar
     def initialize(description)
       @description = description
-      @days_off = []
+      @days_off = {}
+    end
+
+    # Makes a copy of the calendar
+    def copy
+      new_cal = Calendar.new @description.dup
+      
+      @days_off.each_pair do |key, day_off|
+        new_cal.days_off[key] = day_off
+      end
+
+      new_cal
     end
 
     # Provides a function telling that calendar how to evaluate whether a
@@ -87,21 +129,26 @@ module Rupee
     # previous_weekday:
     #
     #   # Thanksgiving (fourth Thursday of November
-    #   MyCalendar.has_day_off_when do |date|
+    #   MyCalendar.has_day_off_on :thanksgiving do |date|
     #     date.month == NOVEMBER && date.thursday? && week_of(date) == 4
     #   end
     #
     #   # Christmas (December 25 or nearest weekday)
-    #   MyCalendar.has_day_off_when do |date|
+    #   MyCalendar.has_day_off_on :christmas do |date|
     #     date.month == DECEMBER && nearest_weekday(date, 25)
     #   end
     #
     #   # New Year's Day (January 1 or next weekday)
-    #   MyCalendar.has_day_off_when do |date|
+    #   MyCalendar.has_day_off_on :new_years do |date|
     #     date.month == JANUARY && next_weekday(date, 1)
     #   end
-    def has_day_off_when(&block)
-      @days_off << block
+    def has_day_off_on(key, &block)
+      @days_off[key] = block
+    end
+
+    # Removes the day off for the specified key
+    def remove_day_off_for(key)
+      @days_off.delete key
     end
 
     # A simple helper method for the commonality among most countries that
@@ -109,14 +156,14 @@ module Rupee
     #
     #   MyCalendar.has_weekends_off
     def has_weekends_off
-      @days_off << Proc.new do |date|
+      @days_off[:weekends] = Proc.new do |date|
         date.saturday? || date.sunday?
       end
     end
 
     # Returns true if the specified date is a holiday or day off
     def day_off?(date)
-      @days_off.each do |day_off|
+      @days_off.each_value do |day_off|
         return true if day_off.call(date)
       end
 
