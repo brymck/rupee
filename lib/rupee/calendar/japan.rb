@@ -9,29 +9,29 @@ module Rupee
     # Fixed and solar holidays
     Japan.has_day_off_when do |date|
       case date.month
-      when 1
+      when JANUARY
         # New Year's Day
         date.day == 1
-      when 2
+      when FEBRUARY
         # National Foundation Day
         date.day == 11
-      when 3
+      when MARCH
         # Vernal Equinox Day
         date.day == 20
-      when 4
+      when APRIL
         # Showa Day
         date.day == 29
-      when 5
+      when MAY
         # Golden Week: Constitution Memorial Day, Greenery Day and Children's
         # Day, respectively
         date.day.between?(3, 5)
-      when 9
+      when SEPTEMBER
         # Autumnal Equinox Day
         date.day == 23
-      when 11
+      when NOVEMBER
         # Culture Day and Labour Thanksgiving Day
         date.day == 3 || date.day == 23
-      when 12
+      when DECEMBER
         # Emperor's Birthday
         date.day == 23
       end
@@ -41,10 +41,10 @@ module Rupee
     Japan.has_day_off_when do |date|
       if date.monday?
         case date.month
-        when 1, 10
+        when JANUARY, OCTOBER
           # Coming of Age Day, Health and Sports Day
           week_of(date) == 2
-        when 7, 9
+        when JULY, SEPTEMBER
           # Marine Day, Respect-for-the-Aged Day
           week_of(date) == 3
         end

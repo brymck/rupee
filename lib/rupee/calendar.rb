@@ -2,6 +2,31 @@ module Rupee
   # An object representing a calendar, for use in determining the next payout
   # date for a cash flow
   class Calendar
+    # A constant representing the month of January
+    JANUARY   = 1
+    # A constant representing the month of February
+    FEBRUARY  = 2
+    # A constant representing the month of March
+    MARCH     = 3
+    # A constant representing the month of April
+    APRIL     = 4
+    # A constant representing the month of May
+    MAY       = 5
+    # A constant representing the month of June
+    JUNE      = 6
+    # A constant representing the month of July
+    JULY      = 7
+    # A constant representing the month of August
+    AUGUST    = 8
+    # A constant representing the month of September
+    SEPTEMBER = 9
+    # A constant representing the month of October
+    OCTOBER   = 10
+    # A constant representing the month of November
+    NOVEMBER  = 11
+    # A constant representing the month of December
+    DECEMBER  = 12
+
     autoload :Japan, "rupee/calendar/japan"
     autoload :US, "rupee/calendar/us"
 
@@ -14,10 +39,41 @@ module Rupee
       @days_off = []
     end
 
+    # Provides a function telling that calendar how to evaluate whether a
+    # particular day is off. Note that within this block you can use the
+    # helper methods week_of, nearest_weekday, next_weekday and
+    # previous_weekday:
+    #
+    #   require "rupee/calendar"
+    #
+    #   cal = Rupee::Calendar.new("Sample calendar")
+    #
+    #   # Thanksgiving (fourth Thursday of November
+    #   cal.has_day_off_when do |date|
+    #     date.month == NOVEMBER && date.thursday? && week_of(date) == 4
+    #   end
+    #
+    #   # Christmas (December 25 or nearest weekday)
+    #   cal.has_day_off_when do |date|
+    #     date.month == DECEMBER && nearest_weekday(date, 25)
+    #   end
+    #
+    #   # New Year's Day (January 1 or next weekday)
+    #   cal.has_day_off_when do |date|
+    #     date.month == JANUARY && next_weekday(date, 1)
+    #   end
     def has_day_off_when(&block)
       @days_off << block
     end
 
+    # A simple helper method for the commonality among most countries that
+    # weekends are not workdays or trading days
+    #
+    #   require "rupee/calendar"
+    #
+    #   cal = Rupee::Calendar.new("Sample calendar")
+    #
+    #   cal.has_weekends_off
     def has_weekends_off
       @days_off << Proc.new do |date|
         date.saturday? || date.sunday?
@@ -34,8 +90,6 @@ module Rupee
     end
 
     class << self
-      private
-
       # Calculates the week of the month in which the given date falls
       def week_of(date)
         (date.day - 1) / 7 + 1
@@ -60,17 +114,41 @@ module Rupee
 
       # Calculates whether the provided date is the nearest weekday relative
       # to the provided day of the month
-      def nearest_weekday(date, day, opts = {})
-        opts = { :force_monday => false }.merge opts
-
+      def nearest_weekday(date, day)
         case date.wday
         when 1     # Monday
-          date.day.between?(day, day + (opts[:force_monday] ? 2 : 1))
+          date.day.between?(day, day + 1)
         when 5     # Friday
-          date.day.between?(day - (opts[:force_monday] ? 0 : 1), day)
+          date.day.between?(day - 1, day)
         when 0, 6  # Weekends
           false
         else       # Tuesday - Thursday
+          date.day == day
+        end
+      end
+      
+      # Calculates whether the provided date is the nearest weekday relative
+      # to the provided day of the month
+      def next_weekday(date, day)
+        case date.wday
+        when 1     # Monday
+          date.day.between?(day, day + 2)
+        when 0, 6  # Weekends
+          false
+        else       # Tuesday - Friday
+          date.day == day
+        end
+      end
+
+      # Calculates whether the provided date is the nearest weekday relative
+      # to the provided day of the month
+      def previous_weekday(date, day)
+        case date.wday
+        when 5     # Friday
+          date.day.between?(day - 2, day)
+        when 0, 6  # Weekends
+          false
+        else       # Monday - Thursday
           date.day == day
         end
       end
