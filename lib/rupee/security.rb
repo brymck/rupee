@@ -15,7 +15,7 @@ module Rupee
     #     :volatility =>  0.3
     #   )
     #   puts call.black_scholes
-    #   #=> 2.1333718619275794
+    #   # => 2.1333718619275794
     #
     # You still have the option of avoiding the creation of an object (and the
     # overhead it entails) by using the class methods directly:
@@ -23,7 +23,7 @@ module Rupee
     #   require "rupee"
     #
     #   puts Rupee::Option.black_scholes "c", 60, 65, 0.25, 0.08, 0, 0.3
-    #   #=> 2.1333718619275794
+    #   # => 2.1333718619275794
     def initialize(opts = {})
       opts.each do |key, value|
         writer = key.to_s.+("=").to_sym

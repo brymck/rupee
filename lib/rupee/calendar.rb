@@ -233,6 +233,20 @@ module Rupee
           date.day == day
         end
       end
+    
+      # Calculates whether the provided date is the day requested or, if the
+      # day requested falls on a Sunday, the following Monday
+      def next_monday_if_sunday(date, day)
+        case date.wday
+        when 1     # Monday
+          date.day.between?(day, day + 1)
+        when 0, 6  # Weekends
+          false
+        else       # Tuesday - Friday
+          date.day == day
+        end
+      end
+
     end
   end
 end

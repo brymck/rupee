@@ -13,13 +13,13 @@ module Rupee
   #   wfc = Rupee::Quote.new(:wfc)
   #
   #   wfc.get :price, :change, :pct_chg
-  #   #=> {:price=>24.96, :change=>0.17, :pct_chg =>0.686}
+  #   # => {:price=>24.96, :change=>0.17, :pct_chg =>0.686}
   #
   #   wfc.price
-  #   #=> 24.96
+  #   # => 24.96
   #
   #   wfc.change
-  #   #=> 0.17
+  #   # => 0.17
   class Quote
     # A ticker symbol
     attr_accessor :ticker
@@ -60,7 +60,7 @@ module Rupee
     # Retrieves the current information for a security
     #
     #   Rupee::Quote.new(:wfc).get :price, :change, :pct_chg
-    #   #=> {:price=>24.96, :change=>0.17, :pct_chg =>0.686}
+    #   # => {:price=>24.96, :change=>0.17, :pct_chg =>0.686}
     def get(*params)
       now = Time.now
       params = [:price] if params.empty?
@@ -92,7 +92,7 @@ module Rupee
     # Retrieves the current information for a security
     #
     #   Rupee::Quote.new(:wfc)[:price, :change, :pct_chg]
-    #   #=> {:price=>24.96, :change=>0.17, :pct_chg =>0.686}
+    #   # => {:price=>24.96, :change=>0.17, :pct_chg =>0.686}
     alias :[] :get
 
     # call-seq: #price
@@ -142,8 +142,8 @@ module Rupee
 
     # Parses an object that might be a number
     #
-    #   parse "15"  #=> 15
-    #   parse "abc" #=> "abc"
+    #   parse "15"  # => 15
+    #   parse "abc" # => "abc"
     def parse(result)
       begin
         Float(result.gsub /,/, "")
@@ -155,7 +155,7 @@ module Rupee
     # Scans the values provided for the number with the greatest number of
     # decimal places, then returns that number of decimal places
     #
-    #   precision 0, 1.5, 2.25, 3 #=> 2
+    #   precision 0, 1.5, 2.25, 3 # => 2
     def precision(*values)
       values.map do |value|
         temp = value.to_s.split(".")
