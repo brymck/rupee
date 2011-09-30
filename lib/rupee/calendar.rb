@@ -52,12 +52,12 @@ module Rupee
   #     # Pirates generally observe the Federal Reserve holiday schedule
   #     Blackbeard = US.copy
   #
-  #     # But they do observer Talk Like a Pirate Day
+  #     # But they do observe Talk Like a Pirate Day
   #     Blackbeard.has_day_off_on :talk_like_a_pirate_day do |date|
   #       date.month == SEPTEMBER && date.day == 19
   #     end
   #
-  #     # And curse the flag Columbus flew under
+  #     # And curse the Spanish Crown
   #     Blackbeard.remove_day_off_for :columbus_day
   #   end
   #
