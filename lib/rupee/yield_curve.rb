@@ -2,7 +2,7 @@ module Rupee
   class YieldCurve
     def initialize(description = "", opts = {})
       opts = {
-        :currency      => :usd
+        :currency      => :usd,
         :interpolation => :cubic_spline
       }.merge opts
 
