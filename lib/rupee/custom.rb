@@ -22,21 +22,21 @@ module Rupee
     end
 
     def calendar=(x) # :nodoc:
-      @calendar = to_constant(x, Calendar)
+      @calendar = to_instance(x, Calendar)
     end
 
     def currency=(x)  # :nodoc:
-      @currency = to_constant(x, Currency)
+      @currency = to_instance(x, Currency)
     end
 
     private
 
-    # Converts the supplied value to the specified constant (if it isn't
-    # already one)
-    def to_constant(x, constant)
+    # Converts the supplied value to an instance of the specified class (if it
+    # isn't already one)
+    def to_instance(x, constant)
       x = x.upcase
 
-      if x.kind_of?(constant)
+      if x.instance_of?(constant)
         x
       else
         constant.const_get(x)
