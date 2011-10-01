@@ -12,10 +12,6 @@ describe Quote do
     end
   end
 
-  it "should automatically have a Bloomberg source" do
-    Quote.sources.should include :bloomberg
-  end
-
   describe "without any parameters specified" do
     before :each do
       @wfc = Quote.new(:wfc)

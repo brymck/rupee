@@ -1,3 +1,5 @@
+require "rupee/util"
+
 module Rupee
   # Under construction
   #
@@ -5,6 +7,8 @@ module Rupee
   # curves, payout curves, calendars, currencies, daycounts, roll day
   # conventions, etc.
   class Custom < Security
+    include ClassFinder
+
     # The Calendar object
     attr :calendar
     # The security's Currency
@@ -27,20 +31,6 @@ module Rupee
 
     def currency=(x)  # :nodoc:
       @currency = to_instance(x, Currency)
-    end
-
-    private
-
-    # Converts the supplied value to an instance of the specified class (if it
-    # isn't already one)
-    def to_instance(x, constant)
-      x = x.upcase
-
-      if x.instance_of?(constant)
-        x
-      else
-        constant.const_get(x)
-      end
     end
   end
 end

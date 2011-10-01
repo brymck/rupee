@@ -26,5 +26,6 @@ module Rupee
   autoload :Option,     "rupee/option"
   autoload :Put,        "rupee/option"
   autoload :Quote,      "rupee/quote"
+  autoload :Source,     "rupee/source"
   autoload :YieldCurve, "rupee/yield_curve"
 end

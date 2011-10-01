@@ -1,4 +1,4 @@
-require "rupee/quote/source"
+require "rupee/util"
 autoload :Net, "net/http"
 autoload :URI, "uri"
 
@@ -21,15 +21,14 @@ module Rupee
   #   wfc.change
   #   # => 0.17
   class Quote
+    include ClassFinder
+
     # A ticker symbol
     attr_accessor :ticker
-
     # The name of the quote source
     attr_accessor :source
-
     # The frequency in seconds that a quote's information should be updated
     attr_accessor :frequency
-
     # The time at which the next pull from the online quote source will occur
     attr :next_pull
 
@@ -52,7 +51,7 @@ module Rupee
     def initialize(ticker, opts = {})
       opts = { :source => :bloomberg, :frequency => 15 }.merge opts
       @ticker = ticker.upcase
-      @source = Quote.sources[opts[:source]]
+      @source = to_instance(opts[:source], Source)
       @frequency = opts[:frequency]
       @next_pull = Time.now
     end
