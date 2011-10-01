@@ -69,16 +69,21 @@ module Rupee
         @next_pull = now + @frequency
         @results = {}
         url = URI.parse(@source.url % ticker)
-        html = Net::HTTP.start(url.host, url.port) do |http|
+        res = Net::HTTP.start(url.host, url.port) do |http|
           http.get url.request_uri
-        end.body
+        end
 
-        @source.params.each do |param, regex|
-          begin
-            @results[param] = parse(regex.match(html)[1])
-          rescue
-            @results[param] = nil
+        case res
+        when Net::HTTPSuccess
+          @source.params.each do |param, regex|
+            begin
+              @results[param] = parse(regex.match(res.body)[1])
+            rescue
+              @results[param] = nil
+            end
           end
+        else
+          res.error!
         end
       end
 

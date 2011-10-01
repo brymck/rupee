@@ -1,7 +1,5 @@
 require "rupee/rupee" # keep this as the first require
 require "rupee/version"
-require "rupee/security"
-require "rupee/option.rb"
 
 # Rupee aims to provide user-friendly tools for use in financial applications.
 # The gem is in its development stages, but it currently offers:
@@ -18,7 +16,14 @@ require "rupee/option.rb"
 
 # This module contains all modules and classes associated with Rupee
 module Rupee
-  # autoload :Option, "rupee/option.rb"
-  autoload :Calendar, "rupee/calendar"
-  autoload :Quote, "rupee/quote"
+  autoload :Security,   "rupee/security"
+
+  autoload :Calendar,   "rupee/calendar"
+  autoload :Call,       "rupee/option"
+  autoload :Currency,   "rupee/currency"
+  autoload :DayCount,   "rupee/day_count"
+  autoload :Option,     "rupee/option"
+  autoload :Put,        "rupee/option"
+  autoload :Quote,      "rupee/quote"
+  autoload :YieldCurve, "rupee/yield_curve"
 end
