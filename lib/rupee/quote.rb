@@ -98,8 +98,8 @@ module Rupee
     # call-seq: #price
     #
     # Test
-    [:price, :change, :pct_change, :date, :time, :bid, :ask, :open, :high,
-      :low, :volume, :mkt_cap, :p_e].each do |method_name|
+    [:price, :change, :pct_chg, :date, :time, :bid, :ask, :open, :high, :low,
+      :volume, :mkt_cap, :p_e].each do |method_name|
       define_method method_name do
         get method_name
       end
