@@ -5,6 +5,6 @@ module Rupee
     EUR = Currency.new "Euro", :symbol => "€"
 
     # Alias for the euro
-    Euro = EUR
+    EURO = EUR
   end
 end

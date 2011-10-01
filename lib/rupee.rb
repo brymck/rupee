@@ -19,6 +19,7 @@ module Rupee
   autoload :Security,   "rupee/security"
 
   autoload :Calendar,   "rupee/calendar"
+  autoload :Custom,     "rupee/custom"
   autoload :Call,       "rupee/option"
   autoload :Currency,   "rupee/currency"
   autoload :DayCount,   "rupee/day_count"

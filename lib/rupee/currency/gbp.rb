@@ -5,6 +5,6 @@ module Rupee
     GBP = Currency.new "British pound sterling", :symbol => "£"
 
     # Alias for the British pound
-    Pound = GBP
+    POUND = GBP
   end
 end

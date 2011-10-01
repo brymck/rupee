@@ -10,10 +10,10 @@ describe Currency do
   end
 
   it "should have more readable aliases for the dollar, euro, pound and yen" do
-    Currency::Dollar.should be Currency::USD
-    Currency::Euro.should be Currency::EUR
-    Currency::Pound.should be Currency::GBP
-    Currency::Yen.should be Currency::JPY
+    Currency::DOLLAR.should be Currency::USD
+    Currency::EURO.should be Currency::EUR
+    Currency::POUND.should be Currency::GBP
+    Currency::YEN.should be Currency::JPY
   end
 
   it "should apply the correct format for the dollar, euro, pound and yen" do

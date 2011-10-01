@@ -4,6 +4,6 @@ module Rupee
     USD = Currency.new "US dollar"
 
     # Alias for the US dollar
-    Dollar = USD
+    DOLLAR = USD
   end
 end

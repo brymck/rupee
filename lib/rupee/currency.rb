@@ -3,13 +3,13 @@ module Rupee
   # A holder for currencies
   class Currency
     autoload :GBP, "rupee/currency/gbp"
-    autoload :Pound, "rupee/currency/gbp"
+    autoload :POUND, "rupee/currency/gbp"
     autoload :EUR, "rupee/currency/eur"
-    autoload :Euro, "rupee/currency/eur"
+    autoload :EURO, "rupee/currency/eur"
     autoload :JPY, "rupee/currency/jpy"
-    autoload :Yen, "rupee/currency/jpy"
+    autoload :YEN, "rupee/currency/jpy"
     autoload :USD, "rupee/currency/usd"
-    autoload :Dollar, "rupee/currency/usd"
+    autoload :DOLLAR, "rupee/currency/usd"
 
     # A simple description of the currency
     attr :description
