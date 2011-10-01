@@ -18,6 +18,7 @@ require "rupee/version"
 module Rupee
   autoload :Security,   "rupee/security"
 
+  autoload :Benchmark,  "rupee/benchmark"
   autoload :Calendar,   "rupee/calendar"
   autoload :Custom,     "rupee/custom"
   autoload :Call,       "rupee/option"
