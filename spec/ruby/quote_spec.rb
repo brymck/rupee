@@ -33,8 +33,8 @@ describe Quote do
       end
     end
 
-    [:price, :change, :pct_chg].each do |param|
-      it "should return a #{param}" do
+    [:change, :pct_chg].each do |param|
+      it "should have a #{param}" do
         run_if_connected do
           @wfc.price.should be_a_kind_of Float
         end
