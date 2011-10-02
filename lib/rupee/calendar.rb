@@ -1,3 +1,5 @@
+require "rupee/mixins/find_instance"
+
 module Rupee
   # An object representing a calendar, for use in determining the next payout
   # date for a cash flow. Simple example:
@@ -73,6 +75,8 @@ module Rupee
   #   Rupee::Calendar::US.day_off?(Time.new(2011, 10, 10))
   #   # => true
   class Calendar
+    include FindInstance
+
     # A constant representing the month of January
     JANUARY   = 1
     # A constant representing the month of February

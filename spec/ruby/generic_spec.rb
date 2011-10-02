@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + "/../spec_helper"
 
-describe Rupee do
+describe "Autoloading" do
   it "should produce no errors when loading all constants two levels deep" do
     Rupee.constants.each do |c|
       # Get classes and constants

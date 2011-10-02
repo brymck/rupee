@@ -1,3 +1,5 @@
+require "rupee/mixins/find_instance"
+
 module Rupee
   # A class to hold quote sources
   class Source
@@ -14,8 +16,13 @@ module Rupee
     # The parameters available
     attr :params
 
+    # Creates a new quote service
     def initialize(name, url, params = {})
       @name, @url, @params = name, url, params
+    end
+
+    class << self
+      include FindInstance
     end
   end
 end

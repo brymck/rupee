@@ -1,7 +1,11 @@
 # encoding: utf-8
+require "rupee/mixins/find_instance"
+
 module Rupee
   # A holder for currencies
   class Currency
+    include FindInstance
+
     # Default currencies, autoloaded as required
     autoload :GBP,    "rupee/currency/gbp"
     autoload :POUND,  "rupee/currency/gbp"

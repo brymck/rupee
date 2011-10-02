@@ -1,5 +1,7 @@
 module Rupee
   class YieldCurve
+    include FindInstance
+
     def initialize(description = "", opts = {})
       opts = {
         :currency      => :usd,

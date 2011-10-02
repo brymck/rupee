@@ -4,7 +4,9 @@ describe Calendar do
   def test_calendar(calendar, holidays)
     holidays.each do |holiday|
       year, month, day = holiday
-      calendar.day_off?(Time.new(year, month, day)).should_not be false
+      if calendar.day_off?(Time.new(year, month, day)) == false
+        raise "#{year}/#{month}/#{day} is not a holiday"
+      end
     end
   end
 
@@ -68,10 +70,7 @@ describe Calendar do
   describe "for Japanese holidays" do
     before :each do
       @holidays = {
-        :bank_holidays       => [[2011,  1,  1], [2011,  1,  2], [2011,  1,  3], [2011, 12, 31],
-                                 [2012,  1,  1], [2012,  1,  2], [2012,  1,  3], [2012, 12, 31],
-                                 [2013,  1,  1], [2013,  1,  2], [2013,  1,  3], [2013, 12, 31],
-                                 [2014,  1,  1], [2014,  1,  2], [2014,  1,  3], [2014, 12, 31]],
+        :new_years           => [[2011,  1,  1], [2012,  1,  1], [2013,  1,  1], [2014,  1,  1]],
         :seijin_no_hi        => [[2011,  1, 10], [2012,  1,  9], [2013,  1, 14], [2014,  1, 13]],
         :kenkoku_kinen_no_hi => [[2011,  2, 11], [2012,  2, 11], [2013,  2, 11], [2014,  2, 11]],
         :shunbun             => [[2011,  3, 21], [2012,  3, 20], [2013,  3, 20], [2014,  3, 21]],
@@ -82,16 +81,20 @@ describe Calendar do
                                  [2014,  5,  3], [2014,  5,  4], [2014,  5,  5], [2014,  5,  6]],
         :umi_no_hi           => [[2011,  7, 18], [2012,  7, 16], [2013,  7, 15], [2014,  7, 21]],
         :keiro_no_hi         => [[2011,  9, 19], [2012,  9, 17], [2013,  9, 16], [2014,  9, 15]],
-        :setsubun            => [[2011,  9, 23], [2012,  9, 22], [2013,  9, 23], [2014,  9, 23]],
+        :shubun              => [[2011,  9, 23], [2012,  9, 22], [2013,  9, 23], [2014,  9, 23]],
         :taiiku_no_hi        => [[2011, 10, 10], [2012, 10,  8], [2013, 10, 14], [2014, 10, 13]],
         :bunka_no_hi         => [[2011, 11,  3], [2012, 11,  3], [2013, 11,  4], [2014, 11,  3]],
         :kinro_kansha_no_hi  => [[2011, 11, 23], [2012, 11, 23], [2013, 11, 23], [2014, 11, 24]],
-        :tenno_tanjobi       => [[2011, 12, 23], [2012, 12, 23], [2013, 12, 23], [2014, 12, 23]]
+        :tenno_tanjobi       => [[2011, 12, 23], [2012, 12, 23], [2013, 12, 23], [2014, 12, 23]],
+        :bank_holidays       => [[2011,  1,  1], [2011,  1,  2], [2011,  1,  3], [2011, 12, 31],
+                                 [2012,  1,  1], [2012,  1,  2], [2012,  1,  3], [2012, 12, 31],
+                                 [2013,  1,  1], [2013,  1,  2], [2013,  1,  3], [2013, 12, 31],
+                                 [2014,  1,  1], [2014,  1,  2], [2014,  1,  3], [2014, 12, 31]]
       }
     end
 
-    it "should be accurate for year-end bank holidays" do
-      test_calendar Calendar::Japan, @holidays[:bank_holidays]
+    it "should be accurate for New Year's Day" do
+      test_calendar Calendar::Japan, @holidays[:new_years]
     end
 
     it "should be accurate for Coming of Age Day" do
@@ -103,7 +106,7 @@ describe Calendar do
     end
 
     it "should be accurate for Vernal Equinox Day" do
-      # test_calendar Calendar::Japan, @holidays[:shunbun]
+      test_calendar Calendar::Japan, @holidays[:shunbun]
     end
 
     it "should be accurate for Showa Day" do
@@ -123,7 +126,7 @@ describe Calendar do
     end
 
     it "should be accurate for Autumnal Equinox Day" do
-      # test_calendar Calendar::Japan, @holidays[:setsubun]
+      test_calendar Calendar::Japan, @holidays[:shubun]
     end
 
     it "should be accurate for Health and Sports Day" do
@@ -140,6 +143,10 @@ describe Calendar do
 
     it "should be accurate for the Emperor's Birthday" do
       test_calendar Calendar::Japan, @holidays[:tenno_tanjobi]
+    end
+
+    it "should be accurate for unofficial year-end bank holidays" do
+      test_calendar Calendar::Japan, @holidays[:bank_holidays]
     end
   end
 end

@@ -1,4 +1,3 @@
-require "rupee/util"
 autoload :Net, "net/http"
 autoload :URI, "uri"
 
@@ -21,8 +20,6 @@ module Rupee
   #   wfc.change
   #   # => 0.17
   class Quote
-    include ClassFinder
-
     # A ticker symbol
     attr_accessor :ticker
     # The name of the quote source
@@ -51,7 +48,7 @@ module Rupee
     def initialize(ticker, opts = {})
       opts = { :source => :bloomberg, :frequency => 15 }.merge opts
       @ticker = ticker.upcase
-      @source = to_instance(opts[:source], Source)
+      @source = Source.find(opts[:source])
       @frequency = opts[:frequency]
       @next_pull = Time.now
     end

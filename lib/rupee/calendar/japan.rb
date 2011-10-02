@@ -29,7 +29,10 @@ module Rupee
 
     # Vernal Equinox Day
     Japan.has_day_off_on :shunbun do |date|
-      date.month == MARCH && date.day == 20
+      # Currently alternating between the 20th for two years, then the 21st for
+      # the next two years
+      date.month == MARCH &&
+        next_monday_if_sunday(date, date.year % 4 < 2 ? 20 : 21)
     end
 
     # Showa Day
@@ -37,7 +40,8 @@ module Rupee
       date.month == APRIL && next_monday_if_sunday(date, 29)
     end
 
-    # Golden Week: Constitution Memorial Day, Greenery Day and Children's # Day, respectively
+    # Golden Week: Constitution Memorial Day, Greenery Day and Children's Day,
+    # respectively
     Japan.has_day_off_on :golden_week do |date|
       date.month == MAY && (date.day.between?(3, 5) ||
                           ((date.monday? || date.tuesday?) && date.day == 6))
@@ -54,8 +58,11 @@ module Rupee
     end
 
     # Autumnal Equinox Day
-    Japan.has_day_off_on :setsubun do |date|
-      date.month == SEPTEMBER && next_monday_if_sunday(date, 23)
+    Japan.has_day_off_on :shubun do |date|
+      # Currently alternating between the 22nd for one years, then the 23rd for
+      # the next three years
+      date.month == SEPTEMBER &&
+        next_monday_if_sunday(date, date.year % 4 == 0 ? 22 : 23)
     end
 
     # Health and Sports Day
