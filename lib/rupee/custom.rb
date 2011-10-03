@@ -78,7 +78,7 @@ module Rupee
       @business_day = BusinessDay.find(business_day)
     end
 
-    def calendar=(calendar) # :nodoc:
+    def calendar=(calendar)  # :nodoc:
       @calendar = Calendar.find(calendar)
     end
 
