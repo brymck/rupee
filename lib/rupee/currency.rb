@@ -4,8 +4,6 @@ require "rupee/mixins/find_instance"
 module Rupee
   # A holder for currencies
   class Currency
-    include FindInstance
-
     # Default currencies, autoloaded as required
     autoload :GBP,    "rupee/currency/gbp"
     autoload :POUND,  "rupee/currency/gbp"
@@ -53,6 +51,10 @@ module Rupee
       end
 
       "#{@symbol}#{parts.join @separator}"
+    end
+
+    class << self
+      include FindInstance
     end
   end
 end

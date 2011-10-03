@@ -75,8 +75,6 @@ module Rupee
   #   Rupee::Calendar::US.day_off?(Time.new(2011, 10, 10))
   #   # => true
   class Calendar
-    include FindInstance
-
     # A constant representing the month of January
     JANUARY   = 1
     # A constant representing the month of February
@@ -175,6 +173,8 @@ module Rupee
     end
 
     class << self
+      include FindInstance
+
       # Calculates the week of the month in which the given date falls
       def week_of(date)
         (date.day - 1) / 7 + 1
@@ -250,7 +250,6 @@ module Rupee
           date.day == day
         end
       end
-
     end
   end
 end

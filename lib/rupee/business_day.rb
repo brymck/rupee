@@ -4,7 +4,11 @@ module Rupee
   # A business day convention, used to determine the next business day should a
   # calculated payment date fall on a non-working day
   class BusinessDay
-    include FindInstance
+    autoload :ACTUAL,             "rupee/business_day/actual"
+    autoload :FOLLOWING,          "rupee/business_day/following"
+    autoload :MODIFIED_FOLLOWING, "rupee/business_day/modified_following"
+    autoload :MODIFIED_PREVIOUS,  "rupee/business_day/modified_previous"
+    autoload :PREVIOUS,           "rupee/business_day/previous"
 
     # A description of the business day and where it's often found
     attr :description
@@ -30,6 +34,16 @@ module Rupee
 
     def calendar=(calendar)  # :nodoc:
       @calendar = Calendar.find(calendar)
+    end
+
+    # Calculates the next business day according to the calendar and the date
+    # given
+    def next_day(date)
+      block.call date, @calendar
+    end
+
+    class << self
+      include FindInstance
     end
   end
 end
