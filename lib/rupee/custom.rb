@@ -49,6 +49,9 @@ module Rupee
     #   * <tt>:act_365</tt> - Act/365
     #   * <tt>:act_act</tt> - Act/Act
     #
+    # For example, the following security types can be created (although not
+    # currently priced or anything useful like that):
+    #
     #   require "rupee"
     #
     #   # A typical pay-fixed bond
