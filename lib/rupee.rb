@@ -1,5 +1,6 @@
 require "rupee/rupee" # keep this as the first require
 require "rupee/version"
+require "date"
 
 # Rupee aims to provide user-friendly tools for use in financial applications.
 # The gem is in its development stages, but it currently offers:
@@ -25,6 +26,7 @@ module Rupee
   autoload :Call,        "rupee/option"
   autoload :Currency,    "rupee/currency"
   autoload :DayCount,    "rupee/day_count"
+  autoload :Frequency,   "rupee/frequency"
   autoload :Option,      "rupee/option"
   autoload :Put,         "rupee/option"
   autoload :Quote,       "rupee/quote"

@@ -23,29 +23,23 @@ module Rupee
       @block = block
     end
 
-    def factor(from, to)
+    # Calculates the period in years between the <tt>from</tt> and
+    # <tt>true</tt> dates
+    def period(from, to)
       block.call from, to
     end
 
     class << self
       include FindInstance
 
-      # The number of seconds in a day (a difference of <tt>1</tt> between two
-      # dates in Ruby indicates a difference of one second)
-      SECONDS_PER_DAY = 86_400.0
-
       private
 
       def days(from, to)
-        (to - from) / SECONDS_PER_DAY
+        to - from
       end
 
       def days_in_year(date)
-        if leap_year?(date)
-          366.0
-        else
-          365.0
-        end
+        date.leap? ? 366.0 : 365.0
       end
 
       def end_of_month?(date)
@@ -60,18 +54,8 @@ module Rupee
         when 2
           # Save February, with twenty-eight days clear
           # And twenty-nine each leap year ;)
-          date.day == (date.year % 4 == 0 && (date.year % 100 != 0 || date.year % 400 == 0)) ? 29 : 28
+          date.day == date.leap? ? 29 : 28
         end
-      end
-
-      # Determines whether a date falls during a leap year. Leap years include
-      # all years divisible by 4, with the exception of years divisible by 100
-      # but not divisible by 400 (got that?). That is, 2004 is a leap year, as is
-      # 1904. But while 2000 is a leap year (divisible by 400), 1900 is not
-      # (divisible by 100 but not 400).
-      def leap_year?(date)  # :doc:
-        year = date.year
-        year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)
       end
     end
   end

@@ -6,12 +6,12 @@ module Rupee
       month = date.month
 
       while calendar.day_off?(date) && date.month == month
-        date -= 86_400
+        date -= 1
       end
 
       if date.month != month
         while calendar.day_off?(date)
-          date += 86_400
+          date += 1
         end
       else
         date

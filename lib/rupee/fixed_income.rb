@@ -3,6 +3,8 @@ module Rupee
   # discount curves, payout curves, calendars, currencies, daycounts, roll day
   # conventions, etc.
   class FixedIncome < Security
+    # The dates on which accruals start and end
+    attr :accrual_dates
     # The security's business day convention
     attr :business_day
     # The calendar used for determining holidays
@@ -11,6 +13,24 @@ module Rupee
     attr :currency
     # The day count convention for determining payment and accrual dates
     attr :day_count
+    # The date of the first coupon payment, if the security has irregular cash
+    # flows
+    attr :first_coupon
+    # The frequency of payment periods
+    attr :frequency
+    # The date of the last coupon payment, if the security has irregular cash
+    # flows
+    attr :last_coupon
+    # The maturity date of the security
+    attr :maturity
+    # The dates on which payments occur
+    attr :payment_dates
+    # The periods in years between accrual dates
+    attr :periods
+    # The settlement or issuance date of the security
+    attr :settlement
+    # The start date for accruals
+    attr :start_date
 
     # Build a custom security
     #
@@ -63,13 +83,28 @@ module Rupee
         :business_day => :modified_following,
         :calendar     => :us,
         :currency     => :usd,
-        :day_count    => :thirty_360
+        :day_count    => :thirty_360,
+        :first_coupon => nil,
+        :frequency    => [6, :months],  # hands off Rails monkey-patching
+        :last_coupon  => nil,
+        :maturity     => Date.today.next_year,
+        :settlement   => Date.today,
+        :start_date   => nil
       }.merge opts
 
       self.business_day = opts[:business_day]
       self.calendar     = opts[:calendar]
       self.currency     = opts[:currency]
       self.day_count    = opts[:day_count]
+      self.frequency    = opts[:frequency]
+
+      @first_coupon = opts[:first_coupon]
+      @last_coupon  = opts[:last_coupon]
+      @maturity     = opts[:maturity]
+      @settlement   = opts[:settlement]
+      @start_date   = opts[:start_date]
+
+      build_dates
     end
 
     def business_day=(business_day)  # :nodoc:
@@ -86,6 +121,36 @@ module Rupee
 
     def day_count=(day_count)  # :nodoc:
       @day_count = DayCount.find(day_count)
+    end
+
+    def frequency=(frequency)  # :nodoc:
+      unit, amount = frequency
+      @frequency = Frequency.new(unit, amount)
+    end
+
+    private
+
+    # Builds the accrual and payment dates
+    def build_dates
+      from = @start_date || @settlement
+      temp = from
+
+      @accrual_dates = []
+      @payment_dates = []
+      @periods       = []
+
+      unless @first_coupon_date.nil?
+        from = @first_coupon_date
+        @accrual_dates << from
+      end
+
+      @accrual_dates = @frequency.build(from, @maturity)
+
+      @accrual_dates.each do |date|
+        @periods << @day_count.period(temp, date)
+        @payment_dates << @business_day.next_day(date, @calendar)
+        temp = date
+      end
     end
   end
 end

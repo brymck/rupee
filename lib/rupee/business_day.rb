@@ -14,8 +14,6 @@ module Rupee
     attr :description
     # The formula for calculated the next business day
     attr :block
-    # The calendar used for calculating holidays and days off
-    attr :calendar
 
     # Create a new business day object
     #
@@ -24,22 +22,14 @@ module Rupee
     # * <tt>:calendar</tt> - The calendar to use for calculating holidays and
     #   days off
     def initialize(description, opts = {}, &block)
-      opts = { :calendar => :us }.merge opts
-
       @description = description
       @block = block
-
-      self.calendar=(opts[:calendar])
-    end
-
-    def calendar=(calendar)  # :nodoc:
-      @calendar = Calendar.find(calendar)
     end
 
     # Calculates the next business day according to the calendar and the date
     # given
-    def next_day(date)
-      block.call date, @calendar
+    def next_day(date, calendar)
+      block.call date, calendar
     end
 
     class << self

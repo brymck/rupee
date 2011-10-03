@@ -55,7 +55,7 @@ describe Quote do
       run_if_connected do
         bb_price = Quote.new("GOOG").price
         bb_price.should be_a_kind_of Float
-        @goog.price.should be_within(0.05).of bb_price
+        @goog.price.should be_within(10).of bb_price
       end
     end
   end
@@ -69,7 +69,7 @@ describe Quote do
       run_if_connected do
         bb_price = Quote.new("YHOO").price
         bb_price.should be_a_kind_of Float
-        @yahoo.price.should be_within(0.05).of bb_price
+        @yahoo.price.should be_within(1).of bb_price
       end
     end
   end

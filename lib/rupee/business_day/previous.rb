@@ -3,7 +3,7 @@ module Rupee
     # Previous business day convention
     PREVIOUS = BusinessDay.new "Roll to previous business day" do |date, calendar|
       while calendar.day_off?(date)
-        date -= 86_400
+        date -= 1
       end
 
       date
