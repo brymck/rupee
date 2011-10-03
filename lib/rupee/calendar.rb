@@ -193,7 +193,7 @@ module Rupee
         when 2
           # Save February, with twenty-eight days clear
           # And twenty-nine each leap year ;)
-          date.day > (date.year % 4 == 0 && date.year % 100 != 0) ? 22 : 21
+          date.day > (date.year % 4 == 0 && (date.year % 100 != 0 || date.year % 400 == 0)) ? 22 : 21
         end
       end
 
