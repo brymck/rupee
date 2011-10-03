@@ -17,7 +17,7 @@ describe DayCount do
 
   describe "30E/360" do
     it "should produce a correct day count factor" do
-      DayCount::THIRTY_E_360.factor(@christmas, @next_february).should be_within(@tolerance).of 65 / 360.0
+      DayCount::THIRTY_E_360.factor(@christmas, @next_february).should be_within(@tolerance).of 64 / 360.0
       DayCount::THIRTY_E_360.factor(@christmas, @many_mays).should be_within(@tolerance).of 1235 / 360.0
     end
   end
@@ -48,10 +48,5 @@ describe DayCount do
       DayCount::ACT_ACT.factor(@christmas, @next_february).should be_within(@tolerance).of 6 / 365.0 + 60 / 366.0
       DayCount::ACT_ACT.factor(@christmas, @many_mays).should be_within(@tolerance).of 887 / 365.0 + 1
     end
-  end
-
-  describe "doing leap year calculations" do
-    it "should be correct within a normal year"
-    it "should be correct within a leap year"
   end
 end

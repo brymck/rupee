@@ -8,6 +8,7 @@ module Rupee
 
     autoload :THIRTY_360,        "rupee/day_count/30_360"
     autoload :THIRTY_E_360,      "rupee/day_count/30e_360"
+    autoload :THIRTY_E_360_ISDA, "rupee/day_count/30e_360_isda"
     autoload :THIRTY_E_PLUS_360, "rupee/day_count/30e+_360"
     autoload :ACT_360,           "rupee/day_count/act_360"
     autoload :ACT_365,           "rupee/day_count/act_365"
