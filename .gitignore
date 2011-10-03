@@ -2,6 +2,7 @@
 *.log
 .bundle
 .DS_Store
+.rbx
 .yardoc
 Gemfile.lock
 doc
