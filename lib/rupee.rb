@@ -21,7 +21,7 @@ module Rupee
   autoload :Benchmark,   "rupee/benchmark"
   autoload :BusinessDay, "rupee/business_day"
   autoload :Calendar,    "rupee/calendar"
-  autoload :Custom,      "rupee/custom"
+  autoload :FixedIncome, "rupee/fixed_income"
   autoload :Call,        "rupee/option"
   autoload :Currency,    "rupee/currency"
   autoload :DayCount,    "rupee/day_count"

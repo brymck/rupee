@@ -4,8 +4,6 @@ module Rupee
   # A class representing a day count convention used to determine cash flow
   # and accrual dates for fixed income products
   class DayCount
-    include FindInstance
-
     autoload :THIRTY_360,        "rupee/day_count/30_360"
     autoload :THIRTY_E_360,      "rupee/day_count/30e_360"
     autoload :THIRTY_E_360_ISDA, "rupee/day_count/30e_360_isda"
@@ -30,6 +28,8 @@ module Rupee
     end
 
     class << self
+      include FindInstance
+
       # The number of seconds in a day (a difference of <tt>1</tt> between two
       # dates in Ruby indicates a difference of one second)
       SECONDS_PER_DAY = 86_400.0

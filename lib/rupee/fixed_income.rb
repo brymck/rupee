@@ -1,10 +1,8 @@
 module Rupee
-  # Under construction
-  #
-  # A custom security that allows the user to specify cash flows, discount
-  # curves, payout curves, calendars, currencies, daycounts, roll day
+  # A basic fixed income security that allows the user to specify cash flows,
+  # discount curves, payout curves, calendars, currencies, daycounts, roll day
   # conventions, etc.
-  class Custom < Security
+  class FixedIncome < Security
     # The security's business day convention
     attr :business_day
     # The calendar used for determining holidays
@@ -55,10 +53,10 @@ module Rupee
     #   require "rupee"
     #
     #   # A typical pay-fixed bond
-    #   bond = Rupee::Custom.new
+    #   bond = Rupee::FixedIncome.new
     #
     #   # A typical yen LIBOR security
-    #   bond = Rupee::Custom.new :calendar => :japan, :currency => :yen,
+    #   bond = Rupee::FixedIncome.new :calendar => :japan, :currency => :yen,
     #     :day_count => :act_365
     def initialize(opts = {})
       opts = {
