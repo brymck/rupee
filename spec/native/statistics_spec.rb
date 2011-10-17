@@ -42,8 +42,9 @@ describe Statistics do
   end
 
   it "should return an accurate correlation" do
-    Statistics.correlation(@values, @more_values).should == 0.95
-    Statistics.corr(@values, @more_values).should == 0.95
-    Statistics.correl(@values, @more_values).should == 0.95
+    @result = Statistics.correlation(@values, @more_values)
+    @result.should be_within(@tolerance).of 0.95
+    Statistics.corr(@values, @more_values).should == @result
+    Statistics.correl(@values, @more_values).should == @result
   end
 end
