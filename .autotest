@@ -1,3 +1,6 @@
+require "autotest/fsevent"
+require "autotest/growl"
+
 begin
   require "test_notifier/runner/autotest"
 rescue LoadError

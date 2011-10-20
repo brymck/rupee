@@ -7,6 +7,11 @@ future_price(S, r, ttm)
   return S * exp(r * ttm);
 }
 
+/* call-seq: price(underlying, rate, time_to_maturity)
+ *
+ * The future's price based on the provided underlying, risk-free rate and time
+ * to maturity
+ */
 static VALUE
 price(self, _S, _r, _ttm)
   VALUE self, _S, _r, _ttm;

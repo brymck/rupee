@@ -110,7 +110,13 @@ bond_ytm(times, cflows, price, len, discrete)
   return r;
 };
 
-// Ruby singleton functions
+/*
+ * Ruby singleton functions
+ *
+ * See helper functions below for description broken out by discrete and
+ * continuous compounding. +discrete+ is a boolean equal to +true+ for discrete
+ * compounding and +false+ for continuous compounding
+ */
 
 static VALUE
 convexity(self, _times, _cflows, _r, discrete)
@@ -174,9 +180,28 @@ price(self, _times, _cflows, _r, discrete)
   return rb_float_new(bond_price(times, cflows, r, len, discrete));
 }
 
+static VALUE
+yield_to_maturity(self, _times, _cflows, _price, discrete)
+  VALUE self, _times, _cflows, _price;
+  bool discrete;
+{
+  int len = RARRAY_LEN(_cflows);
+  double times[len], cflows[len], price;
+
+  rtofa(times, _times, len);
+  rtofa(cflows, _cflows, len);
+  price = NUM2DBL(_price);
+
+  return rb_float_new(bond_ytm(times, cflows, price, len, discrete));
+};
+
 // Helper functions
 
-// Convexity of a continuously compounded bond
+/* call-seq: convexity_continuous(times, cflows, rates)
+ *
+ * The bond's convexity based on the provided set of times (in years), cash
+ * flows and discount rates, assuming continuous compounding
+ */
 static VALUE
 convexity_continuous(self, _times, _cflows, _r)
   VALUE self, _times, _cflows, _r;
@@ -184,7 +209,11 @@ convexity_continuous(self, _times, _cflows, _r)
   return convexity(self, _times, _cflows, _r, false);
 }
 
-// Convexity of a discretely compounded bond
+/* call-seq: convexity_discrete(times, cflows, rates)
+ *
+ * The bond's convexity based on the provided set of times (in years), cash
+ * flows and discount rates, assuming discrete compounding
+ */
 static VALUE
 convexity_discrete(self, _times, _cflows, _r)
   VALUE self, _times, _cflows, _r;
@@ -192,7 +221,11 @@ convexity_discrete(self, _times, _cflows, _r)
   return convexity(self, _times, _cflows, _r, true);
 }
 
-// Duration of a continuously compounded bond
+/* call-seq: duration_continuous(times, cflows, rates)
+ *
+ * The bond's duration based on the provided set of times (in years), cash
+ * flows and discount rates, assuming continuous compounding
+ */
 static VALUE
 duration_continuous(self, _times, _cflows, _r)
   VALUE self, _times, _cflows, _r;
@@ -200,7 +233,11 @@ duration_continuous(self, _times, _cflows, _r)
   return duration(self, _times, _cflows, _r, false);
 }
 
-// Duration of a discretely compounded bond
+/* call-seq: duration_discrete(times, cflows, rates)
+ *
+ * The bond's duration based on the provided set of times (in years), cash
+ * flows and discount rates, assuming discrete compounding
+ */
 static VALUE
 duration_discrete(self, _times, _cflows, _r)
   VALUE self, _times, _cflows, _r;
@@ -208,7 +245,11 @@ duration_discrete(self, _times, _cflows, _r)
   return duration(self, _times, _cflows, _r, true);
 }
 
-// Macaulay duration of a continuously compounded bond
+/* call-seq: macaulay_continuous(times, cflows, price)
+ *
+ * The bond's Macaulay duration based on the provided set of times (in years),
+ * cash flows and price, assuming continuous compounding
+ */
 static VALUE
 macaulay_continuous(self, _times, _cflows, _price)
   VALUE self, _times, _cflows, _price;
@@ -216,7 +257,11 @@ macaulay_continuous(self, _times, _cflows, _price)
   return macaulay(self, _times, _cflows, _price, false);
 }
 
-// Macaulay duration of a discretely compounded bond
+/* call-seq: macaulay_discrete(times, cflows, price)
+ *
+ * The bond's Macaulay duration based on the provided set of times (in years),
+ * cash flows and price, assuming discrete compounding
+ */
 static VALUE
 macaulay_discrete(self, _times, _cflows, _price)
   VALUE self, _times, _cflows, _price;
@@ -224,7 +269,11 @@ macaulay_discrete(self, _times, _cflows, _price)
   return macaulay(self, _times, _cflows, _price, true);
 }
 
-// Modified duration of a discretely compounded bond
+/* call-seq: modified_discrete(times, cflows, price)
+ *
+ * The bond's duration based on the provided set of times (in years), cash
+ * flows and price, assuming discrete compounding
+ */
 static VALUE
 modified_discrete(self, _times, _cflows, _price)
   VALUE self, _times, _cflows, _price;
@@ -242,7 +291,11 @@ modified_discrete(self, _times, _cflows, _price)
   return rb_float_new(D / (1 + y));
 };
 
-// Price of a continuously compounded bond
+/* call-seq: price_continuous(times, cflows, rates)
+ *
+ * The bond's price based on the provided set of times (in years), cash flows
+ * and discount rates, assuming continuous compounding
+ */
 static VALUE
 price_continuous(self, _times, _cflows, _r)
   VALUE self, _times, _cflows, _r;
@@ -250,7 +303,11 @@ price_continuous(self, _times, _cflows, _r)
   return price(self, _times, _cflows, _r, false);
 }
 
-// Price of a discretely compounded bond
+/* call-seq: price_discrete(times, cflows, rates)
+ *
+ * The bond's price based on the provided set of times (in years), cash flows
+ * and discount rates, assuming discrete compounding
+ */
 static VALUE
 price_discrete(self, _times, _cflows, _r)
   VALUE self, _times, _cflows, _r;
@@ -258,22 +315,12 @@ price_discrete(self, _times, _cflows, _r)
   return price(self, _times, _cflows, _r, true);
 }
 
-static VALUE
-yield_to_maturity(self, _times, _cflows, _price, discrete)
-  VALUE self, _times, _cflows, _price;
-  bool discrete;
-{
-  int len = RARRAY_LEN(_cflows);
-  double times[len], cflows[len], price;
 
-  rtofa(times, _times, len);
-  rtofa(cflows, _cflows, len);
-  price = NUM2DBL(_price);
-
-  return rb_float_new(bond_ytm(times, cflows, price, len, discrete));
-};
-
-// Yield to maturity of a continuously compounded bond
+/* call-seq: yield_to_maturity_continuous(times, cflows, rates)
+ *
+ * The bond's yield to maturity based on the provided set of times (in years),
+ * cash flows and price, assuming continuous compounding
+ */
 static VALUE
 yield_to_maturity_continuous(self, _times, _cflows, _price)
   VALUE self, _times, _cflows, _price;
@@ -281,7 +328,11 @@ yield_to_maturity_continuous(self, _times, _cflows, _price)
   return yield_to_maturity(self, _times, _cflows, _price, false);
 }
 
-// Yield to maturity of a discretely compounded bond
+/* call-seq: yield_to_maturity_discrete(times, cflows, rates)
+ *
+ * The bond's yield to maturity based on the provided set of times (in years),
+ * cash flows and price, assuming discrete compounding
+ */
 static VALUE
 yield_to_maturity_discrete(self, _times, _cflows, _price)
   VALUE self, _times, _cflows, _price;
