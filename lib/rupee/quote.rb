@@ -72,9 +72,9 @@ module Rupee
         case res
         when Net::HTTPSuccess
           @source.params.each do |param, regex|
-            begin
-              @results[param] = parse(regex.match(res.body)[1])
-            rescue
+            if res.body =~ regex
+              @results[param] = parse($1) 
+            else
               @results[param] = nil
             end
           end
@@ -146,11 +146,11 @@ module Rupee
     #   parse "15"  # => 15
     #   parse "abc" # => "abc"
     def parse(result)
-      begin
-        Float(result.gsub /,/, "")
-      rescue
-        result
-      end
+      return 0.0 if result =~ /N\.A\./
+
+      Float(result.gsub /,/, "")
+    rescue
+      result
     end
 
     # Scans the values provided for the number with the greatest number of

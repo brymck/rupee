@@ -4,7 +4,7 @@ module Rupee
     GOOGLE = Source.new(:google,
       "http://www.google.com/ig/api?stock=%s",
       :price   => /<last data="([0-9.-]*)"/,
-      :change  => /<change data="([0-9.-]*)"/,
+      :change  => /<change data="\+?([0-9.-]*)"/,
       :pct_chg => /<perc_change data="([0-9.-]*)"/,
       :date    => /<trade_date_utc data="([0-9.-]*)"/,
       :time    => /<trade_date_utc data="([0-9.-]*)"/,
