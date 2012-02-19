@@ -64,7 +64,8 @@ module Rupee
       if now >= @next_pull
         @next_pull = now + @frequency
         @results = {}
-        url = URI.parse(@source.url % ticker)
+        @ticker = "#{@ticker.to_s}:US" if @source == Source::BLOOMBERG && !@ticker.to_s.include?(":")
+        url = URI.parse(@source.url % @ticker)
         res = Net::HTTP.start(url.host, url.port) do |http|
           http.get url.request_uri
         end
