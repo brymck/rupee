@@ -8,13 +8,13 @@ module Rupee
       :pct_chg => /trending_[^>]+>[0-9NA.,-]+\s+<span>([0-9,.NA-]+)/,
       :date    => /"date">(.*?)</,
       :time    => /"time">(.*?)</,
-      :bid     => /Bid<\/td>\n<td class[^>]+>([0-9.,NA-]{1,})/,
-      :ask     => /Ask<\/td>\n<td class[^>]+>([0-9.,NA-]{1,})/,
-      :open    => /Open<\/td>\n<td class[^>]+>([0-9.,NA-]{1,})/,
-      :high    => /High<\/td>\n<td class[^>]+>([0-9.,NA-]{1,})/,
-      :low     => /Low<\/td>\n<td class[^>]+>([0-9.,NA-]{1,})/,
-      :volume  => /Volume<\/td>\n<td class[^>]+>([0-9.,NA-]{1,})/,
-      :mkt_cap => /Market Cap[^<]+<\/td>\n<td class[^>]+">([0-9.,NA-]{1,})/,
-      :p_e     => /Price\/Earnings[^<]+<\/td>\n<td class[^>]+>([0-9.,NA-]{1,})/)
+      :bid     => /Bid:<\/th>\n\s*<td[^>]*>([0-9.,NA-]{1,})/,
+      :ask     => /Ask:<\/th>\n\s*<td[^>]*>([0-9.,NA-]{1,})/,
+      :open    => /Open:<\/th>\n\s*<td[^>]*>([0-9.,NA-]{1,})/,
+      :high    => /Day's Range:<\/th>\n\s*<td>[0-9.,NA-]{1,} - ([0-9.,NA-]{1,})/,
+      :low     => /Day's Range:<\/th>\n\s*<td>([0-9.,NA-]{1,})/,
+      :volume  => /Volume:<\/th>\n\s*<td class[^>]+>([0-9.,NA-]{1,})/,
+      :mkt_cap => /Market Cap[^<]+<\/th>\n\s*<td[^>]*">([0-9.,NA-]{1,})/,
+      :p_e     => /Current P\/E[^<]+<\/th>\n\s*<td[^>]*>([0-9.,NA-]{1,})/)
   end
 end
