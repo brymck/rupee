@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + "/../spec_helper"
-
 describe BusinessDay do
   before :each do
     @new_years = Date.new(2012, 1, 1)

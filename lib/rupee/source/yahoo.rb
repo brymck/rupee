@@ -2,9 +2,9 @@ module Rupee
   class Source
     YAHOO = Source.new(:yahoo,
       "http://finance.yahoo.com/q?s=%s",
-      :price   => /yfs_l84_[^>]+>([0-9,.-]+)/,
-      :change  => /yfs_c(?:6[34]|10)_[^>]+>(?:<img[^>]+>)\s*([0-9,.-])+/,
-      :pct_chg => /yfs_p(?:4[34]|20)_[^>]+>\(([0-9,.-]+)%\)/,
+      :price   => /yfs_l(?:10|84)_[^>]+>([0-9,.-]+)/,
+      :change  => /yfs_c(?:6[034]|10)_[^>]+>(?:<img[^>]+>)\s*([0-9,.-]+)/,
+      :pct_chg => /yfs_p(?:4[034]|20)_[^>]+>\(([0-9,.-]+)%\)/,
       :date    => /<span id="yfs_market_time">.*?, (.*?20[0-9]{1,2})/,
       :time    => /(?:"time"|"yfnc_tabledata1")><span id="yfs_t[51]0_[^>]+>(.*?)</,
       :bid     => /yfs_b00_[^>]+>([0-9,.-]{1,})/,

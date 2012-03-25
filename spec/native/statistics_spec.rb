@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + "/../spec_helper"
-
 describe Statistics do
   before :each do
     @tolerance = 0.0001

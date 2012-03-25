@@ -1,6 +1,4 @@
 # encoding: utf-8
-require File.dirname(__FILE__) + "/../spec_helper"
-
 describe Currency do
   it "should at least have the dollar, euro, pound and yen" do
     Currency::USD.should_not be_nil

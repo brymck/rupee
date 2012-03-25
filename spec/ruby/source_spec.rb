@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + "/../spec_helper"
-
 describe Source do
   it "should have a Bloomberg source" do
     Source.find(:bloomberg).should_not be_nil

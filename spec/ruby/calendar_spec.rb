@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + "/../spec_helper"
-
 describe Calendar do
   def test_calendar(calendar, holidays)
     holidays.each do |holiday|

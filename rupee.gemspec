@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
+$LOAD_PATH.push File.expand_path("../lib", __FILE__)
 require "rupee/version"
 
 Gem::Specification.new do |s|
@@ -14,13 +14,9 @@ Gem::Specification.new do |s|
                       financial gems and applications.
                     eos
 
-  s.rubyforge_project = "rupee"
-
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- spec/**/*_spec.rb`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map do |f|
-    File.basename(f)
-  end
+  s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.extensions    = "ext/rupee/extconf.rb"
   s.require_paths = ["lib", "ext"]
 
@@ -28,6 +24,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec",   "~> 2.0"
   s.add_development_dependency "sdoc",    "~> 0.3"
   s.add_development_dependency "autotest"
-  s.add_development_dependency "autotest-fsevent"
-  s.add_development_dependency "autotest-growl"
+
+  if RUBY_PLATFORM =~ /darwin/
+    s.add_development_dependency "autotest-fsevent"
+    s.add_development_dependency "autotest-growl"
+  end
 end

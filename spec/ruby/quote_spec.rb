@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + "/../spec_helper"
-
 describe Quote do
   # Attempts to run the block and submits a pending message if a socket error
   # occurs, the most common cause of which is that the user isn't connected to
@@ -44,6 +42,28 @@ describe Quote do
       @wfc.frequency -= freq_change
       @wfc.next_pull.should == orig_pull - freq_change
     end
+
+    it "should be able to detect negative and positive changes" do
+      run_if_connected do
+        eurusd = Quote.new("EURUSD:IND").change
+        usdeur = Quote.new("USDEUR:IND").change
+        eurusd.should be_within(0.01).of -usdeur
+      end
+    end
+  end
+
+  describe "requesting security types with special treatment in Bloomberg" do
+    it "should grab a change for indices" do
+      run_if_connected do
+        Quote.new("SPX:IND").change.should_not be_nil
+      end
+    end
+
+    it "should grab a change for ETFs" do
+      run_if_connected do
+        Quote.new("DBA").change.should_not be_nil
+      end
+    end
   end
 
   describe "specifying Google Finance as the quote service" do
@@ -68,7 +88,6 @@ describe Quote do
         end
       end
     end
-
   end
 
   describe "specifying Yahoo! Finance as the quote service" do
@@ -91,6 +110,14 @@ describe Quote do
           bb_result.should be_a_kind_of Float
           @yahoo.send(param).should be_within(10).of bb_result
         end
+      end
+    end
+
+    it "should be able to detect negative and positive changes" do
+      run_if_connected do
+        eurusd = Quote.new("EURUSD=X", :source => :yahoo).change
+        usdeur = Quote.new("USDEUR=X", :source => :yahoo).change
+        eurusd.should be_within(0.01).of -usdeur
       end
     end
   end

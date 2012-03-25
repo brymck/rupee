@@ -74,7 +74,16 @@ module Rupee
         when Net::HTTPSuccess
           @source.params.each do |param, regex|
             if res.body =~ regex
-              @results[param] = parse($1) 
+              full_text, match = $&, $1
+
+              # Special handling for <tt>:change</tt> because quote services
+              # insist on using pretty pictures instead of minus signs
+              if param == :change
+                if (Source::BLOOMBERG || Source::YAHOO) && full_text =~ /down/
+                  match = "-#{match}"
+                end
+              end
+              @results[param] = parse(match)
             else
               @results[param] = nil
             end

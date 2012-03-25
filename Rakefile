@@ -1,4 +1,5 @@
 require "bundler/gem_tasks"
+require "rspec/core/rake_task"
 require "rdoc/task"
 require "sdoc"
 
@@ -7,6 +8,8 @@ autoload :FileUtils, "fileutils"
 Dir["tasks/**/*.rake"].each do |rake|
   load File.expand_path(rake)
 end
+
+RSpec::Core::RakeTask.new
 
 RDoc::Task.new do |rdoc|
   rdoc.rdoc_dir = "doc/rdoc"

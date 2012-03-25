@@ -1,10 +1,8 @@
-require File.dirname(__FILE__) + "/../spec_helper"
-
 # Discrete discounting
-# new bond price = 100
-#Continous discounting
-# bond yield to maturity = 0.09
-# new bond price = 104.282
+#   new bond price = 100
+# Continous discounting
+#   bond yield to maturity = 0.09
+#   new bond price = 104.282
 
 describe Bond do
   before :each do

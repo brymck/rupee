@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + "/../spec_helper"
-
 describe DayCount do
   before :each do
     @christmas = Date.new(2011, 12, 25)

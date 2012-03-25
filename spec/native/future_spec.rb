@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + "/../spec_helper"
-
 describe Future do
   before :each do
     @tolerance = 0.001

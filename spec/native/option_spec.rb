@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + "/../spec_helper"
-
 describe Option do
   describe "European option valuation" do
     before :each do
